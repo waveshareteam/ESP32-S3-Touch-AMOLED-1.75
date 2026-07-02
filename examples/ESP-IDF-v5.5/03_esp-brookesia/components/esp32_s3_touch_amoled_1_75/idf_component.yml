@@ -9,8 +9,13 @@ tags:
 - bsp
 
 dependencies:
+  espressif/usb:
+    version: "^1.4.1"
+    rules:
+      - if: "idf_version >= 6.0"
   idf: ">=5.5"
-  lvgl/lvgl: ">=8,<10"
+  lvgl/lvgl:
+    version: "9.5.0"
   esp_lcd_co5300: "*"
   waveshare/esp_lcd_touch_cst9217: "*"
   espressif/esp_lvgl_adapter:
