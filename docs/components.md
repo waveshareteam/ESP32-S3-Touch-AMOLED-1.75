@@ -20,10 +20,10 @@ The current ESP-IDF examples already use managed Waveshare components where prac
 - `examples/esp-idf/03_esp-brookesia/components/brookesia_core`: local Brookesia source snapshot.
 - `examples/esp-idf/03_esp-brookesia/components/brookesia_app_squareline_demo`: local demo app assets and generated UI code.
 - `examples/esp-idf/03_esp-brookesia/components/esp32_s3_touch_amoled_1_75`: board component copy tied to the local Brookesia example.
-- `examples/esp-idf/05_Spec_Analyzer/components/bsp_extra`: project-specific audio/display helper code.
+- `examples/esp-idf/05_Spec_Analyzer/components/bsp_extra`: project-specific codec and I2S capture glue used by the spectrum analyzer.
 
 ## TODO
 
-- After CI reports the first ESP-IDF v6 results, migrate or gate local Brookesia and board-support code only where failures identify a concrete API change.
+- Keep Brookesia AI framework JSON support conditional: IDF v5.5 uses the built-in `json` component, while IDF v6 uses managed `espressif/cjson` when the AI framework is enabled.
 - When a shared Waveshare component fix is required, prefer fixing and releasing the shared component first, then updating the product repository dependency range.
 - Keep `bsp_extra` local only for example-specific glue that does not belong in the shared component repository.

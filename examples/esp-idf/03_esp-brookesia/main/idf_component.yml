@@ -1,3 +1,4 @@
 ## IDF Component Manager Manifest File
 dependencies:
+  espressif/cjson: "*"
   waveshare/esp32_s3_touch_amoled_1_75: "*"

@@ -10,7 +10,7 @@ The example workflow discovers build targets dynamically:
 Current CI matrix pins were resolved from upstream release metadata on 2026-07-07:
 
 - ESP-IDF `v5.5.4` and `v6.0.2`, target `esp32s3`.
-- Arduino-ESP32 core `3.3.10`, FQBN `esp32:esp32:esp32s3`, using bundled libraries from `examples/arduino/libraries`.
+- Arduino-ESP32 core `3.3.10`, FQBN `esp32:esp32:esp32s3:FlashSize=16M,PartitionScheme=app3M_fat9M_16MB`, using bundled libraries from `examples/arduino/libraries`.
 
 Each successful ESP-IDF and Arduino matrix build uploads a flashable firmware artifact. Download the artifact zip from the workflow run, extract it, then run `flash.sh` or `flash.bat` with the board serial port.
 

@@ -12,8 +12,6 @@
 #include "esp_err.h"
 #include "driver/gpio.h"
 #include "driver/i2s_std.h"
-#include "audio_player.h"
-#include "file_iterator.h"
 
 #ifdef __cplusplus
 extern "C" {
@@ -132,87 +130,6 @@ esp_err_t bsp_extra_i2s_write(void *audio_buffer, size_t len, size_t *bytes_writ
  *      - Others: Fail
  */
 esp_err_t bsp_extra_codec_init();
-
-/**
- * @brief Initialize audio player task.
- *
- * @param path file path
- *
- * @return
- *      - ESP_OK: Success
- *      - Others: Fail
- */
-esp_err_t bsp_extra_player_init(void);
-
-/**
- * @brief Delete audio player task.
- *
- * @return
- *      - ESP_OK: Success
- *      - Others: Fail
- */
-esp_err_t bsp_extra_player_del(void);
-
-/**
- * @brief Initialize a file iterator instance
- *
- * @param path The file path for the iterator.
- * @param ret_instance A pointer to the file iterator instance to be returned.
- * @return
- *     - ESP_OK: Successfully initialized the file iterator instance.
- *     - ESP_FAIL: Failed to initialize the file iterator instance due to invalid parameters or memory allocation failure.
- */
-esp_err_t bsp_extra_file_instance_init(const char *path, file_iterator_instance_t **ret_instance);
-
-/**
- * @brief Play the audio file at the specified index in the file iterator
- *
- * @param instance The file iterator instance.
- * @param index The index of the file to play within the iterator.
- * @return
- *     - ESP_OK: Successfully started playing the audio file.
- *     - ESP_FAIL: Failed to play the audio file due to invalid parameters or file access issues.
- */
-esp_err_t bsp_extra_player_play_index(file_iterator_instance_t *instance, int index);
-
-/**
- * @brief Play the audio file specified by the file path
- *
- * @param file_path The path to the audio file to be played.
- * @return
- *     - ESP_OK: Successfully started playing the audio file.
- *     - ESP_FAIL: Failed to play the audio file due to file access issues.
- */
-esp_err_t bsp_extra_player_play_file(const char *file_path);
-
-/**
- * @brief Register a callback function for the audio player
- *
- * @param cb The callback function to be registered.
- * @param user_data User data to be passed to the callback function.
- */
-void bsp_extra_player_register_callback(audio_player_cb_t cb, void *user_data);
-
-/**
- * @brief Check if the specified audio file is currently playing
- *
- * @param file_path The path to the audio file to check.
- * @return
- *     - true: The specified audio file is currently playing.
- *     - false: The specified audio file is not currently playing.
- */
-bool bsp_extra_player_is_playing_by_path(const char *file_path);
-
-/**
- * @brief Check if the audio file at the specified index is currently playing
- *
- * @param instance The file iterator instance.
- * @param index The index of the file to check.
- * @return
- *     - true: The audio file at the specified index is currently playing.
- *     - false: The audio file at the specified index is not currently playing.
- */
-bool bsp_extra_player_is_playing_by_index(file_iterator_instance_t *instance, int index);
 
 #ifdef __cplusplus
 }

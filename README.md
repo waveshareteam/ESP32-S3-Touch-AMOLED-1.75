@@ -7,16 +7,12 @@ Example software and support files for the Waveshare ESP32-S3-Touch-AMOLED-1.75 
 - `examples/esp-idf/` contains first-party ESP-IDF projects for this board.
 - `examples/arduino/` contains first-party Arduino sketches for this board.
 - `examples/arduino/libraries/` contains bundled Arduino libraries used by the sketches.
-- `Firmware/` contains released factory flashing and recovery binaries. These are not source build outputs.
+- `firmware/` contains released factory flashing and recovery binaries. These are not source build outputs.
 - `releases/` contains CI firmware packaging and artifact download helpers.
 - `Schematic/` contains hardware schematic material.
 - `docs/` contains repository structure, CI, component, and firmware notes.
 - `.github/` contains GitHub Actions workflows and public collaboration templates.
 
-The previous versioned example roots are kept as compatibility notes only:
-
-- `examples/ESP-IDF-v5.5/`
-- `examples/Arduino-v3.3.5/`
 
 ## ESP-IDF Examples
 
