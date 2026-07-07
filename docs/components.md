@@ -25,5 +25,6 @@ The current ESP-IDF examples already use managed Waveshare components where prac
 ## TODO
 
 - Keep Brookesia AI framework JSON support conditional: IDF v5.5 uses the built-in `json` component, while IDF v6 uses managed `espressif/cjson` when the AI framework is enabled.
+- Brookesia AI framework managed dependencies are omitted from the default manifest because `CONFIG_ESP_BROOKESIA_ENABLE_AI_FRAMEWORK` is disabled; add and validate the GMF/Coze/ESP-SR chain before enabling AI CI.
 - When a shared Waveshare component fix is required, prefer fixing and releasing the shared component first, then updating the product repository dependency range.
 - Keep `bsp_extra` local only for example-specific glue that does not belong in the shared component repository.
