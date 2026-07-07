@@ -1,0 +1,111 @@
+name: Build Examples
+
+on:
+  push:
+    paths:
+      - ".github/workflows/ci.yml"
+      - "scripts/ci/**"
+      - "examples/esp-idf/**"
+      - "examples/arduino/**"
+      - "config/**"
+      - "docs/**"
+      - "README.md"
+  pull_request:
+    paths:
+      - ".github/workflows/ci.yml"
+      - "scripts/ci/**"
+      - "examples/esp-idf/**"
+      - "examples/arduino/**"
+      - "config/**"
+      - "docs/**"
+      - "README.md"
+  workflow_dispatch:
+    inputs:
+      idf_project:
+        description: "ESP-IDF project: all, directory name, or repo-relative path"
+        required: true
+        default: all
+      arduino_sketch:
+        description: "Arduino sketch: all, directory name, or repo-relative path"
+        required: true
+        default: all
+
+permissions:
+  contents: read
+
+env:
+  ARDUINO_BOARD_MANAGER_URL: https://espressif.github.io/arduino-esp32/package_esp32_index.json
+  ARDUINO_CORE_VERSION: 3.3.10
+  ARDUINO_FQBN: esp32:esp32:esp32s3
+
+jobs:
+  discover:
+    name: Discover examples
+    runs-on: ubuntu-latest
+    outputs:
+      idf_projects: ${{ steps.discover.outputs.idf_projects }}
+      arduino_sketches: ${{ steps.discover.outputs.arduino_sketches }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Discover first-party examples
+        id: discover
+        env:
+          IDF_SELECTION: ${{ github.event_name == 'workflow_dispatch' && inputs.idf_project || 'all' }}
+          ARDUINO_SELECTION: ${{ github.event_name == 'workflow_dispatch' && inputs.arduino_sketch || 'all' }}
+        run: |
+          python scripts/ci/discover_examples.py \
+            --idf-selection "$IDF_SELECTION" \
+            --arduino-selection "$ARDUINO_SELECTION"
+
+  esp-idf:
+    name: ESP-IDF ${{ matrix.idf_version }} / ${{ matrix.project.name }}
+    needs: discover
+    if: ${{ needs.discover.outputs.idf_projects != '[]' }}
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        idf_version:
+          - v5.5.4
+          - v6.0.2
+        project: ${{ fromJson(needs.discover.outputs.idf_projects) }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Build ESP-IDF project
+        uses: espressif/esp-idf-ci-action@v1
+        with:
+          esp_idf_version: ${{ matrix.idf_version }}
+          target: ${{ matrix.project.target }}
+          path: ${{ matrix.project.path }}
+
+  arduino:
+    name: Arduino / ${{ matrix.sketch.name }}
+    needs: discover
+    if: ${{ needs.discover.outputs.arduino_sketches != '[]' }}
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        sketch: ${{ fromJson(needs.discover.outputs.arduino_sketches) }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Arduino CLI
+        uses: arduino/setup-arduino-cli@v2
+
+      - name: Install Arduino-ESP32 core
+        run: |
+          arduino-cli config init
+          arduino-cli core update-index --additional-urls "$ARDUINO_BOARD_MANAGER_URL"
+          arduino-cli core install "esp32:esp32@$ARDUINO_CORE_VERSION" \
+            --additional-urls "$ARDUINO_BOARD_MANAGER_URL"
+
+      - name: Compile sketch
+        run: |
+          arduino-cli compile \
+            --fqbn "$ARDUINO_FQBN" \
+            --libraries examples/arduino/libraries \
+            --warnings all \
+            "${{ matrix.sketch.path }}"

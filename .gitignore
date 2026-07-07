@@ -12,3 +12,8 @@
 **/managed_components
 **/dependencies.lock
 **/sdkconfig
+**/__pycache__/
+**/*.pyc
+release-artifacts/
+releases/dist/
+releases/downloads/
