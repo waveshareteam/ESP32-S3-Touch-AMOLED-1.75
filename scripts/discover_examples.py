@@ -103,7 +103,7 @@ def expand_arduino_matrix(
 
 def write_outputs(matrix: list[dict[str, str]], github_output: str | None) -> None:
     payload = {
-        "matrix": json.dumps(matrix, separators=(",", ":")),
+        "matrix": json.dumps({"include": matrix}, separators=(",", ":")),
         "count": str(len(matrix)),
     }
     if not github_output:
