@@ -5,13 +5,13 @@ from __future__ import annotations
 
 import argparse
 import json
-import os
 import re
 import sys
 from pathlib import Path
 
 
-REPO_ROOT = Path(__file__).resolve().parents[2]
+REPO_ROOT = Path(__file__).resolve().parents[1]
+DEFAULT_TARGET = "esp32s3"
 
 
 def repo_path(path: Path) -> str:
@@ -21,14 +21,14 @@ def repo_path(path: Path) -> str:
 def read_idf_target(project: Path) -> str:
     defaults = project / "sdkconfig.defaults"
     if not defaults.exists():
-        return "esp32s3"
+        return DEFAULT_TARGET
 
     pattern = re.compile(r'^CONFIG_IDF_TARGET="?([^"\n]+)"?')
     for line in defaults.read_text(encoding="utf-8", errors="ignore").splitlines():
         match = pattern.match(line.strip())
         if match:
             return match.group(1)
-    return "esp32s3"
+    return DEFAULT_TARGET
 
 
 def discover_idf_projects() -> list[dict[str, str]]:
@@ -38,9 +38,7 @@ def discover_idf_projects() -> list[dict[str, str]]:
 
     projects: list[dict[str, str]] = []
     for child in sorted(root.iterdir(), key=lambda item: item.name.lower()):
-        if not child.is_dir():
-            continue
-        if not (child / "CMakeLists.txt").exists():
+        if not child.is_dir() or not (child / "CMakeLists.txt").exists():
             continue
         projects.append(
             {
@@ -74,12 +72,12 @@ def discover_arduino_sketches() -> list[dict[str, str]]:
     return sketches
 
 
-def select_items(items: list[dict[str, str]], selection: str, kind: str) -> list[dict[str, str]]:
-    selection = (selection or "all").strip()
-    if selection == "all":
+def select_items(items: list[dict[str, str]], selector: str, kind: str) -> list[dict[str, str]]:
+    selector = (selector or "all").strip()
+    if selector == "all":
         return items
 
-    normalized = selection.replace("\\", "/").strip("/")
+    normalized = selector.replace("\\", "/").strip("/")
     selected = [
         item
         for item in items
@@ -89,36 +87,52 @@ def select_items(items: list[dict[str, str]], selection: str, kind: str) -> list
         return selected
 
     valid = ", ".join(item["name"] for item in items) or "<none>"
-    raise SystemExit(f"Unknown {kind} selection '{selection}'. Valid names: {valid}")
+    raise SystemExit(f"Unknown {kind} selector '{selector}'. Valid names: {valid}")
 
 
-def write_github_output(outputs: dict[str, str]) -> None:
-    output_path = os.environ.get("GITHUB_OUTPUT")
-    if not output_path:
-        print(json.dumps(outputs, indent=2))
+def expand_idf_matrix(items: list[dict[str, str]], idf_versions: str) -> list[dict[str, str]]:
+    versions = [item.strip() for item in idf_versions.split(",") if item.strip()]
+    return [{**project, "idf": version} for project in items for version in versions]
+
+
+def expand_arduino_matrix(
+    items: list[dict[str, str]], arduino_core: str, fqbn: str
+) -> list[dict[str, str]]:
+    return [{**sketch, "core": arduino_core, "fqbn": fqbn} for sketch in items]
+
+
+def write_outputs(matrix: list[dict[str, str]], github_output: str | None) -> None:
+    payload = {
+        "matrix": json.dumps(matrix, separators=(",", ":")),
+        "count": str(len(matrix)),
+    }
+    if not github_output:
+        print(json.dumps(payload, indent=2))
         return
 
-    with Path(output_path).open("a", encoding="utf-8") as handle:
-        for key, value in outputs.items():
+    with Path(github_output).open("a", encoding="utf-8") as handle:
+        for key, value in payload.items():
             handle.write(f"{key}={value}\n")
 
 
 def main() -> int:
-    parser = argparse.ArgumentParser()
-    parser.add_argument("--idf-selection", default="all")
-    parser.add_argument("--arduino-selection", default="all")
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--surface", choices=("esp-idf", "arduino"), required=True)
+    parser.add_argument("--selector", default="all")
+    parser.add_argument("--idf-versions", default="v5.5.4,v6.0.2")
+    parser.add_argument("--arduino-core", default="3.3.10")
+    parser.add_argument("--fqbn", default="esp32:esp32:esp32s3")
+    parser.add_argument("--github-output")
     args = parser.parse_args()
 
-    idf_projects = select_items(discover_idf_projects(), args.idf_selection, "ESP-IDF project")
-    arduino_sketches = select_items(
-        discover_arduino_sketches(), args.arduino_selection, "Arduino sketch"
-    )
+    if args.surface == "esp-idf":
+        items = select_items(discover_idf_projects(), args.selector, "ESP-IDF project")
+        matrix = expand_idf_matrix(items, args.idf_versions)
+    else:
+        items = select_items(discover_arduino_sketches(), args.selector, "Arduino sketch")
+        matrix = expand_arduino_matrix(items, args.arduino_core, args.fqbn)
 
-    outputs = {
-        "idf_projects": json.dumps(idf_projects, separators=(",", ":")),
-        "arduino_sketches": json.dumps(arduino_sketches, separators=(",", ":")),
-    }
-    write_github_output(outputs)
+    write_outputs(matrix, args.github_output)
     return 0
 
 

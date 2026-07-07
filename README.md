@@ -8,6 +8,7 @@ Example software and support files for the Waveshare ESP32-S3-Touch-AMOLED-1.75 
 - `examples/arduino/` contains first-party Arduino sketches for this board.
 - `examples/arduino/libraries/` contains bundled Arduino libraries used by the sketches.
 - `Firmware/` contains released factory flashing and recovery binaries. These are not source build outputs.
+- `releases/` contains CI firmware packaging and artifact download helpers.
 - `Schematic/` contains hardware schematic material.
 - `docs/` contains repository structure, CI, component, and firmware notes.
 - `.github/` contains GitHub Actions workflows and public collaboration templates.
@@ -33,7 +34,7 @@ Each project is intended to be opened from its own directory with ESP-IDF. CI bu
 
 Arduino sketches are under `examples/arduino/`:
 
-- `01_Hello_world`
+- `01_HelloWorld`
 - `02_GFX_AsciiTable`
 - `03_LVGL_PCF85063_simpleTime`
 - `04_LVGL_QMI8658_ui`
@@ -55,7 +56,7 @@ Current CI pins were resolved from upstream release metadata on 2026-07-07:
 - ESP-IDF `v6.0.2`
 - Arduino-ESP32 `3.3.10`
 
-Use workflow dispatch to build all examples, a single directory name, or a repo-relative path. See `docs/ci.md` for details.
+Use workflow dispatch to build all examples, a single directory name, or a repo-relative path. Successful matrix jobs upload flashable firmware artifacts. See `docs/ci.md` and `releases/README.md` for details.
 
 ## Documentation
 
@@ -63,6 +64,7 @@ Use workflow dispatch to build all examples, a single directory name, or a repo-
 - `docs/ci.md` explains CI discovery, matrix selection, and version policy.
 - `docs/components.md` records managed component status and local component boundaries.
 - `docs/firmware.md` explains the factory binary and source build boundary.
+- `releases/README.md` explains firmware packaging and CI artifact download helpers.
 
 ## Support And Contributions
 

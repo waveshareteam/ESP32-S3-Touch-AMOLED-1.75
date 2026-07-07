@@ -1,37 +1,19 @@
 # CI
 
-GitHub Actions validate this repository through CI. Local compilation is not required to certify repository changes.
+The example workflow discovers build targets dynamically:
 
-## Version Matrix
+- ESP-IDF projects are discovered from `examples/esp-idf/*/CMakeLists.txt`.
+- Arduino sketches are discovered from `.ino` files under `examples/arduino/`, excluding `examples/arduino/libraries/**`.
 
-The current workflow pins were resolved from upstream release metadata on 2026-07-07:
+`workflow_dispatch` accepts `all`, an example directory name, or a repo-relative path. This allows maintainers to run the full matrix or a single example.
 
-- ESP-IDF `v5.5.4`
-- ESP-IDF `v6.0.2`
-- Arduino-ESP32 `3.3.10`
+Current CI matrix pins were resolved from upstream release metadata on 2026-07-07:
 
-Update these pins deliberately after checking upstream release notes and migration guides.
+- ESP-IDF `v5.5.4` and `v6.0.2`, target `esp32s3`.
+- Arduino-ESP32 core `3.3.10`, FQBN `esp32:esp32:esp32s3`, using bundled libraries from `examples/arduino/libraries`.
 
-## ESP-IDF
+Each successful ESP-IDF and Arduino matrix build uploads a flashable firmware artifact. Download the artifact zip from the workflow run, extract it, then run `flash.sh` or `flash.bat` with the board serial port.
 
-ESP-IDF CI discovers first-party projects under `examples/esp-idf/` and builds each project for `esp32s3` with both selected ESP-IDF versions.
+The workflow uploads artifacts from first-party source examples only. Bundled library examples and released factory binaries are intentionally excluded from product CI.
 
-The workflow uses the official ESP-IDF CI action and each example's own project directory. Generated `build/`, `managed_components/`, `dependencies.lock`, and `sdkconfig` files remain ignored.
-
-## Arduino
-
-Arduino CI discovers first-party sketches under `examples/arduino/` and compiles them with Arduino-ESP32 `3.3.10`.
-
-The workflow uses bundled libraries from `examples/arduino/libraries/`. Examples inside bundled libraries are intentionally excluded from product CI.
-
-## Manual Dispatch
-
-Use workflow dispatch inputs to narrow a run:
-
-- `all` builds all discovered examples.
-- A directory name builds that one example, such as `02_lvgl_demo_v9`.
-- A repo-relative path builds that one example, such as `examples/arduino/01_Hello_world`.
-
-## Firmware Artifacts
-
-The current CI workflow is compile-validation focused. It does not publish source-built firmware archives yet. Add release packaging only after the source examples are green in CI and the repository needs downloadable flashable artifacts.
+If an example requires hardware, credentials, or an upstream component that is not yet compatible with a selected framework version, document the exclusion here before excluding it from CI.
