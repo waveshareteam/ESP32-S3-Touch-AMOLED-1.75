@@ -1,0 +1,2 @@
+# ESP-IDF v6 uses GCC 15; keep Brookesia CI compatible until esp-boost is warning-clean.
+CONFIG_COMPILER_DISABLE_GCC15_WARNINGS=y

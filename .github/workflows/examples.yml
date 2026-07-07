@@ -63,7 +63,11 @@ jobs:
         run: |
           . "$IDF_PATH/export.sh"
           idf.py --version
-          idf.py -C "${{ matrix.path }}" -B "build/${{ matrix.name }}-${{ matrix.idf }}" set-target "${{ matrix.target }}" build
+          idf_options=()
+          if [[ "${{ matrix.idf }}" == v6.* && -f "${{ matrix.path }}/sdkconfig.defaults.v6" ]]; then
+            idf_options+=(-D "SDKCONFIG_DEFAULTS=sdkconfig.defaults;sdkconfig.defaults.v6")
+          fi
+          idf.py -C "${{ matrix.path }}" -B "build/${{ matrix.name }}-${{ matrix.idf }}" "${idf_options[@]}" set-target "${{ matrix.target }}" build
       - name: Package firmware
         shell: bash
         run: |

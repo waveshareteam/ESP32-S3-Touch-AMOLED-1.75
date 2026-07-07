@@ -31,10 +31,3 @@ target_compile_options(
     PUBLIC
         "-Wno-attributes"
 )
-
-get_component_library("esp-boost" ESP_BOOST_LIB)
-target_compile_options(
-    ${ESP_BOOST_LIB}
-    PRIVATE
-        "-Wno-error=deprecated-variadic-comma-omission"
-)
