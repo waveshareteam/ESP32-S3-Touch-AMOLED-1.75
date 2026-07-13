@@ -1,19 +1,66 @@
-# CI
+# Continuous Integration
 
-The example workflow discovers build targets dynamically:
+The `Build Examples` workflow discovers, builds, and packages every first-party example. Firmware
+published in GitHub Releases comes from this workflow; release firmware is not compiled manually.
 
-- ESP-IDF projects are discovered from `examples/esp-idf/*/CMakeLists.txt`.
-- Arduino sketches are discovered from `.ino` files under `examples/arduino/`, excluding `examples/arduino/libraries/**`.
+## Discovery Boundary
 
-`workflow_dispatch` accepts `all`, an example directory name, or a repo-relative path. This allows maintainers to run the full matrix or a single example.
+- ESP-IDF projects are direct children of `examples/esp-idf/` containing `CMakeLists.txt`.
+- Arduino sketches are direct children of `examples/arduino/` containing a top-level `.ino` file.
+- `examples/arduino/libraries/**`, local component samples, and `firmware/**` are excluded.
 
-Current CI matrix pins were resolved from upstream release metadata on 2026-07-07:
+The `workflow_dispatch` selector accepts `all`, an example directory name, or a repository-relative
+path.
 
-- ESP-IDF `v5.5.4` and `v6.0.2`, target `esp32s3`.
-- Arduino-ESP32 core `3.3.10`, FQBN `esp32:esp32:esp32s3:FlashSize=16M,PartitionScheme=app3M_fat9M_16MB`, using bundled libraries from `examples/arduino/libraries`.
+## Validated Matrix
 
-Each successful ESP-IDF and Arduino matrix build uploads a flashable firmware artifact. Download the artifact zip from the workflow run, extract it, then run `flash.sh` or `flash.bat` with the board serial port.
+Versions were resolved from upstream releases on 2026-07-07:
 
-The workflow uploads artifacts from first-party source examples only. Bundled library examples and released factory binaries are intentionally excluded from product CI.
+| Framework | Version | Examples | Firmware artifacts |
+| --- | --- | ---: | ---: |
+| ESP-IDF | `v5.5.4` | 5 | 5 |
+| ESP-IDF | `v6.0.2` | 5 | 5 |
+| Arduino-ESP32 | `3.3.10` | 9 | 9 |
 
-If an example requires hardware, credentials, or an upstream component that is not yet compatible with a selected framework version, document the exclusion here before excluding it from CI.
+ESP-IDF targets `esp32s3`. Arduino uses
+`esp32:esp32:esp32s3:FlashSize=16M,PartitionScheme=app3M_fat9M_16MB` and the bundled libraries.
+
+The full workflow consists of two discovery jobs and 19 build/package jobs. Matrix jobs do not fail
+fast, so one failure does not hide results from the other examples.
+
+## Artifact Contract
+
+Each successful build uploads one `*-combined.zip` archive containing:
+
+- The original offset-addressed binaries under `bin/`.
+- A single `bin/<artifact-name>-combined.bin` image for offset `0x0`.
+- `manifest.json` with framework, version, project, target, Git SHA, file sizes, and SHA256 checksums.
+- `flash_combined.sh`, `flash_combined.bat`, and `flash_combined_args.txt`.
+- `flash.sh`, `flash.bat`, and `flash_args.txt` for split-image flashing.
+- A package README.
+
+The packager rejects overlapping binary regions. The combined image fills unused address gaps with
+`0xFF` and preserves each binary at the offset supplied by ESP-IDF or Arduino.
+
+## Version Policy
+
+CI tracks the latest stable patch in the ESP-IDF v5.5 line, the latest stable ESP-IDF v6 release, and
+the latest stable Arduino-ESP32 release supported by the repository. Version updates should include:
+
+1. Upstream release and migration-guide review.
+2. Full matrix CI.
+3. Hardware validation of affected demos.
+4. Documentation and release-note updates.
+
+## Release Gate
+
+A release is ready only when:
+
+1. Pull request CI succeeds for all 19 build/package jobs.
+2. Hardware validation is complete.
+3. The pull request is merged and the release tag points to the merged commit.
+4. Tag-triggered CI succeeds.
+5. All tag-run archives pass `prepare_release_assets.py` validation.
+6. The GitHub Release contains 19 combined ZIP files and `manifest-combined-assets.json`.
+
+See [Release Scripts](../releases/README.md) for the maintainer commands.
