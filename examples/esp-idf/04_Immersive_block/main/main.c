@@ -42,7 +42,7 @@ typedef struct {
 #define MAX_SHAPE_SIZE 30
 #define MAX_TOTAL_PLACEMENT_ATTEMPTS (MAX_SHAPES * 20)
 #define ACCEL_SCALE_FACTOR 5
-#define TASK_DELAY_MS 20
+#define TASK_DELAY_MS 33
 #define DISPLAY_LOCK_TIMEOUT_MS 200
 #define CALIBRATION_DEADZONE 0.05f
 #define CALIBRATION_SAMPLES 200
@@ -392,6 +392,11 @@ static void shapes_update_task(void *arg) {
                 
                 int move_x = (int)(-data.accelY * ACCEL_SCALE_FACTOR);
                 int move_y = (int)(data.accelX * ACCEL_SCALE_FACTOR);
+
+                if (move_x == 0 && move_y == 0) {
+                    vTaskDelay(pdMS_TO_TICKS(TASK_DELAY_MS));
+                    continue;
+                }
                 
                 if (bsp_display_lock(DISPLAY_LOCK_TIMEOUT_MS) != ESP_OK) {
                     ESP_LOGW(TAG, "Skipping shape update because display lock timed out");
@@ -400,6 +405,8 @@ static void shapes_update_task(void *arg) {
                 }
                 
                 for (int i = 0; i < shape_count; i++) {
+                    int old_x = shapes[i].x_pos;
+                    int old_y = shapes[i].y_pos;
                     int new_x = shapes[i].x_pos + move_x;
                     int new_y = shapes[i].y_pos + move_y;
                     
@@ -422,10 +429,12 @@ static void shapes_update_task(void *arg) {
                                              CORNER_RADIUS_MM, shapes[i].radius);
                     
                     handle_shape_collisions(i);
-                    
-                    lv_obj_set_pos(shapes[i].obj, 
-                                  shapes[i].x_pos - shapes[i].radius, 
-                                  shapes[i].y_pos - shapes[i].radius);
+
+                    if (shapes[i].x_pos != old_x || shapes[i].y_pos != old_y) {
+                        lv_obj_set_pos(shapes[i].obj,
+                                       shapes[i].x_pos - shapes[i].radius,
+                                       shapes[i].y_pos - shapes[i].radius);
+                    }
                 }
                 
                 bsp_display_unlock();
@@ -497,13 +506,16 @@ void app_main(void) {
         ESP_LOGE(TAG, "Initial calibration failed: %s", esp_err_to_name(ret));
     }
 
-    xTaskCreatePinnedToCore(
-        shapes_update_task, 
-        "shapes_update", 
-        8192, 
-        dev, 
-        3, 
-        NULL, 
-        1
+    BaseType_t task_ret = xTaskCreate(
+        shapes_update_task,
+        "shapes_update",
+        8192,
+        dev,
+        2,
+        NULL
     );
+    if (task_ret != pdPASS) {
+        ESP_LOGE(TAG, "Failed to create shapes update task");
+        free(dev);
+    }
 }
