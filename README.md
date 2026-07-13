@@ -39,28 +39,30 @@ Arduino IDE settings, boot mode, and troubleshooting.
 
 ## Examples
 
-The repository contains 14 first-party examples:
+The repository contains 15 first-party examples:
 
 - Five ESP-IDF projects under [examples/esp-idf](examples/esp-idf/).
-- Nine Arduino sketches under [examples/arduino](examples/arduino/).
+- Ten Arduino sketches under [examples/arduino](examples/arduino/).
 - Bundled Arduino dependencies under `examples/arduino/libraries/`.
 
 The examples cover power management, LVGL, ESP-Brookesia, the QMI8658 IMU, RTC, microSD, ES8311
-audio, microphone spectrum analysis, and LC76G GNSS. See the
+audio, microphone spectrum analysis, LC76G GNSS, and raw CST9217 touch diagnostics. See the
 [example catalog](docs/examples.md) for behavior and hardware requirements.
 
 ## Supported Toolchains
 
-The v1.0.1 CI and firmware matrix uses:
+The current CI matrix uses:
 
 | Surface | Version | Coverage |
 | --- | --- | --- |
 | ESP-IDF | `v5.5.4` | All five ESP-IDF projects |
 | ESP-IDF | `v6.0.2` | All five ESP-IDF projects |
-| Arduino-ESP32 | `3.3.10` | All nine first-party sketches |
+| Arduino-ESP32 | `3.3.10` | All ten first-party sketches |
 
-GitHub Actions build all 19 framework/example combinations and package each successful build as
+GitHub Actions build all 20 framework/example combinations and package each successful build as
 flashable firmware. Bundled library examples and factory recovery binaries are intentionally excluded.
+
+The v1.0.1 release predates `10_Touch_CST9217` and contains the original 19 firmware packages.
 
 ## Repository Layout
 

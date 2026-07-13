@@ -68,14 +68,15 @@ Artifacts are extracted under `releases/downloads/run-<run-id>/`. Authentication
 
 ## Stage A Release
 
-After the tag workflow succeeds, validate and stage all 19 firmware archives:
+After the tag workflow succeeds, validate and stage all 20 firmware archives:
 
 ```bash
 python3 releases/prepare_release_assets.py \
   --input-dir releases/downloads/run-<run-id> \
-  --output-dir releases/dist/v1.0.1 \
-  --version v1.0.1 \
+  --output-dir releases/dist/vX.Y.Z \
+  --version vX.Y.Z \
   --git-sha <tag-commit-sha> \
+  --expected-count 20 \
   --clean
 ```
 
@@ -83,5 +84,5 @@ The script rejects missing combined images, incorrect offsets, checksum mismatch
 names, mixed Git SHAs, and an unexpected archive count. It copies validated ZIP files and writes
 `manifest-combined-assets.json`.
 
-Upload the 19 ZIP files, the combined-assets manifest, and the release notes from
-`releases/v1.0.1.md` to the GitHub Release.
+Upload the 20 ZIP files, the combined-assets manifest, and the matching release notes to the GitHub
+Release. The historical v1.0.1 tag predates `10_Touch_CST9217` and contains 19 firmware ZIP files.

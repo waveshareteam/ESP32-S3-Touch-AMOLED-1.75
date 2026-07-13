@@ -6,7 +6,7 @@ discovered consistently.
 ## Canonical Paths
 
 - `examples/esp-idf/`: five first-party ESP-IDF projects.
-- `examples/arduino/`: nine first-party Arduino sketches.
+- `examples/arduino/`: ten first-party Arduino sketches.
 - `examples/arduino/libraries/`: bundled dependencies used by those sketches.
 - `config/`: shared ESP-IDF compatibility overlays.
 - `docs/`: setup, example, CI, component, firmware, and troubleshooting documentation.

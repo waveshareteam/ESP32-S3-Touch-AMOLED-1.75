@@ -100,6 +100,7 @@ scheme before uploading.
 - `07_LVGL_SD_Test` requires a compatible microSD card.
 - `08_ES8311` exercises the audio codec and audio path.
 - `09_LC76G_I2C` requires an LC76G module connected over I2C.
+- `10_Touch_CST9217` reports raw touch-controller coordinates over the serial monitor.
 - `04_Immersive_block` uses the QMI8658 IMU for motion input.
 - `05_Spec_Analyzer` uses the onboard digital microphones.
 

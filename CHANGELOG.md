@@ -2,6 +2,13 @@
 
 All notable repository and firmware changes are documented here.
 
+## [Unreleased]
+
+### Added
+
+- Board-specific CST9217 raw single- and two-point touch diagnostic under
+  `examples/arduino/10_Touch_CST9217/`.
+
 ## [1.0.1] - 2026-07-13
 
 ### Added
@@ -28,4 +35,5 @@ All notable repository and firmware changes are documented here.
   hardware.
 - Stabilized display locking and runtime behavior across the validated example set.
 
+[Unreleased]: https://github.com/waveshareteam/ESP32-S3-Touch-AMOLED-1.75/compare/v1.0.1...HEAD
 [1.0.1]: https://github.com/waveshareteam/ESP32-S3-Touch-AMOLED-1.75/releases/tag/v1.0.1

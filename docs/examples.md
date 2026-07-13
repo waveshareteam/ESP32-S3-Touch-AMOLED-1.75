@@ -3,8 +3,9 @@
 CI discovers only the direct first-party examples listed below. Examples bundled inside third-party
 libraries are dependencies or upstream samples and are not product firmware targets.
 
-All 14 first-party demos were hardware-tested for the v1.0.1 release. ESP-IDF projects are built
-with both supported ESP-IDF versions, producing 10 firmware packages; Arduino produces nine packages.
+The 14 first-party demos included in v1.0.1 were hardware-tested for that release. The current source
+adds `10_Touch_CST9217`, which must be hardware-validated before the next release. ESP-IDF projects
+produce 10 firmware packages and Arduino produces 10 packages.
 
 ## ESP-IDF
 
@@ -32,6 +33,7 @@ Build each project from its own directory with target `esp32s3`. See
 | `07_LVGL_SD_Test` | Exercises microSD access through an LVGL-based board application. | Compatible microSD card. |
 | `08_ES8311` | Initializes ES8311 audio and runs an LVGL widgets interface. | ES8311 audio path, display, and touch. |
 | `09_LC76G_I2C` | Communicates with an external LC76G GNSS module over I2C. | External LC76G module and suitable antenna. |
+| `10_Touch_CST9217` | Reports raw interrupt-driven single- and two-point touch coordinates over serial. | CST9217 touch controller; display and LVGL are intentionally not initialized. |
 
 Compile with Arduino-ESP32 `3.3.10`, 16 MB flash, the
 `app3M_fat9M_16MB` partition scheme, and the bundled libraries. See
@@ -46,5 +48,6 @@ For example, workflow dispatch selectors include:
 - `04_Immersive_block`
 - `examples/esp-idf/05_Spec_Analyzer`
 - `09_LC76G_I2C`
+- `10_Touch_CST9217`
 
 Every successful source build produces a `*-combined.zip` firmware artifact.

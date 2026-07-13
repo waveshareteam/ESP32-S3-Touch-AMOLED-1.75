@@ -14,7 +14,7 @@ from pathlib import Path, PurePosixPath
 
 
 PRODUCT = "ESP32-S3-Touch-AMOLED-1.75"
-DEFAULT_EXPECTED_COUNT = 19
+DEFAULT_EXPECTED_COUNT = 20
 
 
 def sha256_file(path: Path) -> str:
