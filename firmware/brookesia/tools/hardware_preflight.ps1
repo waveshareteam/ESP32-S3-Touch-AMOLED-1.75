@@ -1,7 +1,7 @@
 [CmdletBinding()]
 param(
     [ValidatePattern('^COM[0-9]+$')]
-    [string]$Port = 'COM24',
+    [string]$Port,
 
     [string]$SdDrive,
     [switch]$AllowFixedDrive,
@@ -12,7 +12,7 @@ param(
 
     [ValidatePattern('^[0-9A-Fa-f]{64}$')]
     [string]$ExpectedFirmwareSha256 =
-        '4c9b353e59d0c86bfe28bdbb385ff60f82e9df8c022a807169a0dd5d0169dffb',
+        '0876f10a6f2a693d83d51c417e44131ed2c81b952c78d6cd794b03bfa3e218d2',
 
     [ValidatePattern('^[0-9A-Fa-f]{64}$')]
     [string]$ExpectedMediaZipSha256 =
@@ -43,6 +43,22 @@ function Get-Sha256([string]$Path)
     return (Get-FileHash -Algorithm SHA256 -LiteralPath $Path).Hash.ToLowerInvariant()
 }
 
+function Get-EmbeddedHostPathCount([string]$Path)
+{
+    $bytes = [IO.File]::ReadAllBytes($Path)
+    $printableRuns = [Text.RegularExpressions.Regex]::Matches(
+        [Text.Encoding]::ASCII.GetString($bytes),
+        '[\x20-\x7e]{8,}'
+    )
+    $count = 0
+    foreach ($run in $printableRuns) {
+        if ($run.Value -match '^(?:[A-Za-z]:[\\/]|/(?:home|Users|private|Volumes)/)') {
+            $count++
+        }
+    }
+    return $count
+}
+
 function Resolve-ExistingFile([string]$Path, [string]$Description)
 {
     if ([string]::IsNullOrWhiteSpace($Path) -or
@@ -54,8 +70,8 @@ function Resolve-ExistingFile([string]$Path, [string]$Description)
 
 function Resolve-SafeChild([string]$Root, [string]$RelativePath)
 {
-    # Keep the trailing separator while joining. Trimming E:\ to E: would turn
-    # it into PowerShell's drive-relative current directory instead of the
+    # Keep the trailing separator while joining. Trimming a Windows drive root
+    # would turn it into a drive-relative current directory instead of the
     # physical card root.
     $rootFull = [IO.Path]::GetFullPath($Root)
     $candidate = [IO.Path]::GetFullPath((Join-Path $rootFull $RelativePath))
@@ -95,6 +111,14 @@ try {
     } else {
         Write-Pass "Combined firmware SHA256 $firmwareSha"
     }
+    $embeddedHostPathCount = Get-EmbeddedHostPathCount $resolvedFirmware
+    if ($embeddedHostPathCount -ne 0) {
+        Write-Failure (
+            "Combined firmware contains $embeddedHostPathCount embedded host-absolute path string(s)"
+        )
+    } else {
+        Write-Pass 'Combined firmware contains no embedded host-absolute paths'
+    }
 } catch {
     Write-Failure $_.Exception.Message
 }
@@ -126,7 +150,8 @@ try {
             $entryName = $zipEntry.FullName.Replace('\', '/')
             # Resolve against a synthetic root to reject absolute paths and ..
             # components before trusting an archive entry name.
-            $null = Resolve-SafeChild 'C:\sd-media-root' $entryName
+            $syntheticRoot = Join-Path ([IO.Path]::GetPathRoot($repoRoot)) 'sd-media-root'
+            $null = Resolve-SafeChild $syntheticRoot $entryName
             if ($entries.ContainsKey($entryName)) {
                 throw "Duplicate SD media ZIP entry: $entryName"
             }
@@ -199,7 +224,7 @@ try {
 if (-not [string]::IsNullOrWhiteSpace($SdDrive)) {
     try {
         if ($SdDrive -notmatch '^[A-Za-z]:[\\/]?$') {
-            throw "SD drive must be a drive root such as E: (received '$SdDrive')"
+            throw "SD drive must be a drive root such as X: (received '$SdDrive')"
         }
         $driveLetter = $SdDrive.Substring(0, 1).ToUpperInvariant()
         $sdRoot = "${driveLetter}:\"
@@ -262,28 +287,32 @@ if (-not [string]::IsNullOrWhiteSpace($SdDrive)) {
 if ($Offline) {
     Write-WarningResult 'Offline mode selected; COM port and ESP-IDF environment were not checked'
 } else {
-    try {
-        $availablePorts = [IO.Ports.SerialPort]::GetPortNames()
-        if ($availablePorts -notcontains $Port) {
-            throw "$Port is not present"
-        }
-        $serialPort = $null
+    if ([string]::IsNullOrWhiteSpace($Port)) {
+        Write-Failure 'No serial port supplied; rerun with -Port COMx'
+    } else {
         try {
-            $serialPort = Get-CimInstance Win32_SerialPort | Where-Object {
-                $_.DeviceID -eq $Port
-            } | Select-Object -First 1
+            $availablePorts = [IO.Ports.SerialPort]::GetPortNames()
+            if ($availablePorts -notcontains $Port) {
+                throw "$Port is not present"
+            }
+            $serialPort = $null
+            try {
+                $serialPort = Get-CimInstance Win32_SerialPort | Where-Object {
+                    $_.DeviceID -eq $Port
+                } | Select-Object -First 1
+            } catch {
+                # The port list is authoritative; CIM is only used for its label.
+            }
+            $serialName = if ($null -ne $serialPort -and
+                    -not [string]::IsNullOrWhiteSpace([string]$serialPort.Name)) {
+                [string]$serialPort.Name
+            } else {
+                $Port
+            }
+            Write-Pass "$Port is present as '$serialName'"
         } catch {
-            # The port list is authoritative; CIM is only used for its label.
+            Write-Failure $_.Exception.Message
         }
-        $serialName = if ($null -ne $serialPort -and
-                -not [string]::IsNullOrWhiteSpace([string]$serialPort.Name)) {
-            [string]$serialPort.Name
-        } else {
-            $Port
-        }
-        Write-Pass "$Port is present as '$serialName'"
-    } catch {
-        Write-Failure $_.Exception.Message
     }
 
     try {
@@ -325,5 +354,5 @@ if ($script:preflightFailures.Count -ne 0) {
 Write-Host ''
 Write-Host 'Hardware preflight passed.' -ForegroundColor Green
 if ($Offline) {
-    Write-Host "Reconnect the board and rerun without -Offline before flashing $Port."
+    Write-Host 'Reconnect the board and rerun without -Offline and with -Port COMx before flashing.'
 }
