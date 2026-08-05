@@ -285,6 +285,22 @@ esp_err_t bsp_sdcard_unmount(void);
  */
 esp_io_expander_handle_t bsp_io_expander_init(void);
 
+/**
+ * @brief Try to initialize the TCA9554 without aborting on an I2C error
+ *
+ * This variant is intended for hardware diagnostics that must report a failed
+ * expander instead of restarting the board. The returned handle remains owned
+ * by the BSP and must not be deleted by the caller.
+ *
+ * @param[out] ret_expander Device handle on success, NULL on failure
+ *
+ * @return
+ *      - ESP_OK on success
+ *      - ESP_ERR_INVALID_ARG when ret_expander is NULL
+ *      - an error returned by the I2C bus or TCA9554 driver
+ */
+esp_err_t bsp_io_expander_try_init(esp_io_expander_handle_t *ret_expander);
+
 
 /**************************************************************************************************
  *

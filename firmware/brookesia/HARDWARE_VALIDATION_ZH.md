@@ -79,7 +79,20 @@ idf.py -C firmware\brookesia -B $brookesiaBuildDir -p $port monitor
 确认 P4 风格加载画面逐步完成各初始化阶段、到达 `Ready`，并平滑淡出到完整的
 466 x 466 Brookesia 画面。
 
-## 3. 存储与 Settings
+## 3. Button Test 按键测试
+
+1. 在两个按键都松开的情况下打开 **Button Test**。确认 PWR 显示 `RAW LOW`，
+   BOOT 显示 `RAW HIGH`，两张卡片都显示 `RELEASED` 和 `WAITING`。
+2. 短按 PWR，不要长按。确认只有 PWR 卡片变为 `RAW HIGH` 和 `PRESSED`；松开后
+   恢复为 `RAW LOW` 和 `RELEASED`，同时保留 `PASS LATCHED`。
+3. 按下 BOOT。确认只有 BOOT 卡片变为 `RAW LOW` 和 `PRESSED`；松开后恢复为
+   `RAW HIGH` 和 `RELEASED`，同时保留 `PASS LATCHED`。
+4. 确认底部提示变为 `ALL BUTTONS PASSED`。测试不得读取 AXP2101 按键寄存器；
+   PWR 只从 TCA9554 EXIO4 采样，BOOT 只从 GPIO0 采样。
+5. 连续退出并重新打开 Button Test 五次。启动器必须始终响应，每次新会话都应清除
+   两个锁存结果，且关闭应用后不得有工作任务或 LVGL 定时器继续访问已关闭的页面。
+
+## 4. 存储与 Settings
 
 1. 打开 **Settings > Storage**。
 2. 确认已显示存储卡名称、容量、可用空间、1 位 SDMMC 总线和时钟信息。
@@ -88,7 +101,7 @@ idf.py -C firmware\brookesia -B $brookesiaBuildDir -p $port monitor
 4. 导出诊断信息，确认 `/Waveshare/Diagnostics` 下出现新的文本文件。
 5. 启用 AI 聊天历史记录，关闭 Settings 后重新打开，确认设置已持久化保存。
 
-## 4. MusicPlayer 与共享音频所有权
+## 5. MusicPlayer 与共享音频所有权
 
 1. 打开 **MusicPlayer**，确认六个立体声 WAV 测试曲目全部被索引。
 2. 确认上一首、播放/暂停和下一首按钮在 466 x 466 圆屏布局中清晰可见且响应正常。
@@ -99,7 +112,7 @@ idf.py -C firmware\brookesia -B $brookesiaBuildDir -p $port monitor
    每个应用必须成功取得音频资源，或明确报告资源忙；任何应用都不得重启，也不得
    从其他所有者手中抢占 ES8311/ES7210 会话。
 
-## 5. Gallery
+## 6. Gallery
 
 1. 打开 **Gallery**，确认两个基线编码 JPEG 测试图片均被索引。
 2. 测试上一张、下一张和幻灯片控制。
@@ -108,7 +121,7 @@ idf.py -C firmware\brookesia -B $brookesiaBuildDir -p $port monitor
 5. 临时重命名 `/photos`，重新打开 Gallery，并确认错误页面不会持续占用 SD 访问
    租约；此时 Settings 中的安全弹出仍必须能够成功执行。
 
-## 6. Recorder
+## 7. Recorder
 
 1. 开始录音，并依次靠近两个麦克风说话，录制至少十秒。
 2. 正常停止录音，确认 `/Waveshare/Recordings` 下出现 WAV 文件。
@@ -117,7 +130,7 @@ idf.py -C firmware\brookesia -B $brookesiaBuildDir -p $port monitor
 4. 重复开始/停止五次，并在正在录音时关闭应用。输出必须仍是可读取的 WAV 文件，
    而不是长度为零的文件。
 
-## 7. VideoPlayer
+## 8. VideoPlayer
 
 1. 播放 `01-mjpeg-320x240-10fps-pcm24k.avi`。
 2. 确认移动白色方块按照有意设置的 10 fps 上限平滑前进，并且可以听到 PCM 音频。
@@ -125,7 +138,7 @@ idf.py -C firmware\brookesia -B $brookesiaBuildDir -p $port monitor
 4. 连续十次快速进入并立即返回。任何 AVI 回调都不得访问已经释放的画布、帧缓冲、
    文件、编解码器或 SD 访问租约。
 
-## 8. 安全弹出、重新插入和历史记录
+## 9. 安全弹出、重新插入和历史记录
 
 1. MusicPlayer 或 VideoPlayer 持有已打开文件时，**Safe eject** 必须报告资源忙，
    并保持存储卡挂载。
@@ -142,7 +155,7 @@ idf.py -C firmware\brookesia -B $brookesiaBuildDir -p $port monitor
 `.wav.partial` 文件。其文件头每五秒执行一次检查点更新，因此中断的录音不会被
 发布成成功完成的 `.wav` 文件。
 
-## 9. 最终耐久验收
+## 10. 最终耐久验收
 
 在监视串口输出的同时，至少循环进入全部启动器应用二十次。只有在整个过程中没有
 panic、看门狗、栈溢出、堆断言、无效状态循环、应用关闭后仍占用 SD 访问租约，

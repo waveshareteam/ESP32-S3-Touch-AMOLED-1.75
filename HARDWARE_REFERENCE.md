@@ -99,8 +99,8 @@ Initialize the shared bus once and pass or reuse its handle. The maintained BSP 
 | P0 / `EXIO0` | `EXIO0` | Application-defined | No fixed peripheral function shown; available at a test point. |
 | P1 / `EXIO1` | `EXIO1` | Application-defined | No fixed peripheral function shown; available at a test point. |
 | P2 / `EXIO2` | `EXIO2` | Application-defined | No fixed peripheral function shown; available at a test point. |
-| P3 / `EXIO3` | `Codec_CE` | Output | ES8311 codec control/address-enable path. |
-| P4 / `EXIO4` | `RTC_INT` | Input | PCF85063 interrupt. |
+| P3 / `EXIO3` | `RTC_INT` | Input | PCF85063 interrupt. |
+| P4 / `EXIO4` | `SYS_OUT` | Input | Conditioned PWR-button state; high while pressed and low while released. |
 | P5 / `EXIO5` | `AXP_IRQ` | Input | AXP2101 interrupt. |
 | P6 / `EXIO6` | `QMI_INT1` | Input | QMI8658 INT1. |
 | P7 / `EXIO7` | `GPS_RST` | Output | LC76G reset on the `-G` variant; optional on other variants. |
@@ -155,7 +155,7 @@ All GPIO signals use 3.3 V logic and are not 5 V tolerant. VBUS is a power rail,
 ## Power, USB, display, and buttons
 
 - The battery connector is intended for a single-cell 3.7 V lithium battery. Use the AXP2101 driver and the board power design for charging and telemetry.
-- The PWR button is part of the AXP2101 power-control path; it is not listed as a free ESP32-S3 GPIO. The BOOT button is connected to GPIO0.
+- The PWR button is part of the AXP2101 power-control path rather than a free ESP32-S3 GPIO, but its conditioned `SYS_OUT` state is readable on TCA9554 P4/`EXIO4`: high means pressed and low means released. Reading this level does not require an AXP2101 register transaction. The BOOT button is connected to GPIO0, is externally pulled up, and reads low while pressed.
 - GPIO19/GPIO20 are the native USB D-/D+ pair. Reusing them can disable USB flashing, USB Serial/JTAG, or application USB functions.
 - The AMOLED has no separate GPIO-driven LED backlight. Brightness is controlled through CO5300 panel commands, so generic LCD backlight PWM examples do not apply.
 - Display reset is GPIO39 and touch reset is GPIO40. They must not be treated as a shared reset line.
@@ -166,7 +166,7 @@ All GPIO signals use 3.3 V logic and are not 5 V tolerant. VBUS is a power rail,
 2. On the `-G` version, confirm the fitted UART routing before using GPIO17/GPIO18 for another purpose, and coordinate LC76G reset through TCA9554 P7.
 3. Share the existing I2C controller instead of installing multiple independent drivers on GPIO14/GPIO15. Check new peripherals for address conflicts.
 4. Use GPIO42 for audio MCLK. GPIO16 is an expansion GPIO in the maintained BSP and board schematic.
-5. Let the BSP manage ES8311, ES7210, the amplifier-control path, and their shared clocks. Directly toggling GPIO46 or TCA9554 P3 can conflict with codec lifecycle handling.
+5. Let the BSP manage ES8311, ES7210, the amplifier-control path, and their shared clocks. Directly toggling GPIO46 can conflict with codec lifecycle handling.
 6. GPIO0 is a boot strap, and GPIO43/GPIO44 may be used for UART0. External circuits must not prevent boot or firmware recovery.
 7. Do not drive VBUS or 3V3 from an external supply without accounting for backfeeding, regulation, and the AXP2101 power path.
 

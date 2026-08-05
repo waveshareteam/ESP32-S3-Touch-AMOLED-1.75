@@ -93,13 +93,14 @@ factory image has its own verified command and checksum in the
 
 ## 📱 Brookesia Application Firmware
 
-The source-maintained factory application provides twelve round-screen applications:
+The source-maintained factory application provides thirteen round-screen applications:
 
 - SquareLine, Calculator, DrawPanel, and Crosshair.
 - SpecAnalyzer and Recorder using the ES7210 dual-microphone input.
 - MusicPlayer, Gallery, and VideoPlayer using the microSD card.
 - Settings with live AXP2101 battery information, native Wi-Fi state, storage diagnostics, and safe eject.
 - AIChats with optional text-history storage and Gravitysphere driven by the QMI8658 IMU.
+- Button Test with direct PWR/EXIO4 and BOOT/GPIO0 level diagnostics.
 
 The status bar follows live battery and Wi-Fi state. The media applications, generated fixture
 formats, FFmpeg commands, privacy notes, and SD-card layout are documented in the

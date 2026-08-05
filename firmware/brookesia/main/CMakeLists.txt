@@ -6,6 +6,7 @@ idf_component_register(
     REQUIRES
         brookesia_app_calculator
         bsp_extra
+        ButtonTest
         Crosshair
         draw
         espressif__esp_lvgl_adapter

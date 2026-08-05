@@ -38,6 +38,8 @@ CST9217 触摸控制器、ES8311/ES7210 音频器件以及 ESP32-S3 原生 Wi-Fi
   限制在面板真实的圆形边界内
 - Crosshair（十字准星），提供带同心圆、方位刻度和中心轴的全屏圆形校准靶，
   并支持通过触摸选择对比配色方案
+- Button Test（按键测试），显示 PWR 与 BOOT 的原始电平和锁存通过结果；PWR
+  直接读取 TCA9554 EXIO4，BOOT 直接读取 GPIO0，不读取 AXP2101 按键寄存器
 
 ## SD 卡目录结构
 
@@ -82,12 +84,13 @@ Phone 状态栏也由真实硬件状态驱动：电池图标和百分比跟随 A
 使用居中的 2 x 2 安全网格，并保留每个图标的 112 x 112 尺寸，而不会按照通用矩形
 手机布局将其缩小。
 
-Crosshair 启动器图标保留为 112 x 112 圆角 PNG，并使用托管 `lvgl` 组件中官方
-LVGL v9 的 `scripts/LVGLImage.py` 工具转换为 `ARGB8888` C 数据。依赖解析完成后，
-可使用以下命令重新生成：
+Crosshair 与 Button Test 启动器图标保留为 112 x 112 圆角 PNG，并使用托管
+`lvgl` 组件中官方 LVGL v9 的 `scripts/LVGLImage.py` 工具转换为 `ARGB8888` C 数据。
+依赖解析完成后，可使用以下命令重新生成：
 
 ```text
 python managed_components/lvgl__lvgl/scripts/LVGLImage.py --ofmt C --cf ARGB8888 --name img_app_crosshair --output components/Crosshair/assets components/Crosshair/assets/img_app_crosshair.png
+python managed_components/lvgl__lvgl/scripts/LVGLImage.py --ofmt C --cf ARGB8888 --name img_app_button_test --output components/ButtonTest/assets components/ButtonTest/assets/img_app_button_test.png
 ```
 
 ## 构建
@@ -112,7 +115,7 @@ ESP-SR 模型分区预留 960 KB。构建过程会生成并烧录选定的 WakeN
 
 ## 硬件验证
 
-ESP-IDF v5.5.4 构建成功可验证全部十二个应用、存储镜像和 ESP-SR 模型镜像能够
+ESP-IDF v5.5.4 构建成功可验证全部十三个应用、存储镜像和 ESP-SR 模型镜像能够
 一同完成编译与打包。当前带日期的出厂固件及其交付检查记录见
 [`../README_ZH.md`](../README_ZH.md)。任何源码变更后，重新生成的出厂固件候选版本
 必须再次完成 [`HARDWARE_VALIDATION_ZH.md`](HARDWARE_VALIDATION_ZH.md) 中针对目标

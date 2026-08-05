@@ -66,19 +66,21 @@ Brookesia 固件的可复用应用层，同时使用本板原生的显示、触�
 支持的应用范围记录在 `firmware/brookesia/README.md` 中。
 
 The source project includes SquareLine, Calculator, DrawPanel, SpecAnalyzer, MusicPlayer, Gallery,
-VideoPlayer, Recorder, Settings, AIChats, Gravitysphere, and Crosshair. Settings and the Phone status
+VideoPlayer, Recorder, Settings, AIChats, Gravitysphere, Crosshair, and Button Test. Settings and the Phone status
 bar consume live AXP2101 battery data and native Wi-Fi state. Settings also exposes SD-card
 information, a CRC read/write benchmark, diagnostic export, AIChats text-history control, and safe
 eject. The status widgets and application layouts use round-screen safe areas; Gravitysphere
 constrains the QMI8658-driven ball to a true circular boundary, while Crosshair provides a full-screen
-optical alignment target for checking panel rotation and bonding.
+optical alignment target for checking panel rotation and bonding. Button Test reads PWR from TCA9554
+EXIO4 and BOOT from GPIO0 directly, without using AXP2101 button registers.
 
 源码工程包含 SquareLine、Calculator、DrawPanel、SpecAnalyzer、MusicPlayer、Gallery、
-VideoPlayer、Recorder、Settings、AIChats、Gravitysphere 和 Crosshair。Settings 与 Phone 状态栏
+VideoPlayer、Recorder、Settings、AIChats、Gravitysphere、Crosshair 和 Button Test。Settings 与 Phone 状态栏
 使用实时 AXP2101 电池数据及原生 Wi-Fi 状态。Settings 还提供 SD 卡信息、CRC 读写基准测试、
 诊断导出、AIChats 文本历史控制和安全弹出。状态组件与应用布局使用圆屏安全区域；
 Gravitysphere 将 QMI8658 驱动的小球限制在真实圆形边界内，Crosshair 则提供全屏光学对准图案，
-用于检查面板旋转和贴合效果。
+用于检查面板旋转和贴合效果。Button Test 直接从 TCA9554 EXIO4 读取 PWR、从 GPIO0 读取 BOOT，
+不使用 AXP2101 按键寄存器。
 
 This project is source firmware, not a factory image and not part of the example-discovery CI matrix.
 Build and validate it on the target board before treating its output as a recovery image.

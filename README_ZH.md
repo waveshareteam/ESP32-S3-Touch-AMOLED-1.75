@@ -88,13 +88,14 @@ GPIO 映射、I2C 地址、音频与 SD 总线、扩展排针和共享资源注�
 
 ## 📱 Brookesia 应用固件
 
-通过源码维护的工厂应用包含 12 个适配圆形屏幕的应用：
+通过源码维护的工厂应用包含 13 个适配圆形屏幕的应用：
 
 - SquareLine、Calculator、DrawPanel 与 Crosshair。
 - 使用 ES7210 双麦克风输入的 SpecAnalyzer 与 Recorder。
 - 使用 microSD 卡的 MusicPlayer、Gallery 与 VideoPlayer。
 - Settings：显示实时 AXP2101 电池信息、原生 Wi-Fi 状态、存储诊断并支持安全弹出。
 - AIChats：可选保存文本历史；Gravitysphere：由 QMI8658 IMU 驱动。
+- Button Test：直接读取 PWR/EXIO4 与 BOOT/GPIO0 的电平并完成按键诊断。
 
 状态栏会跟随真实电池和 Wi-Fi 状态。媒体应用、合成测试素材格式、FFmpeg 命令、隐私提示与 SD 卡
 目录结构见[素材制作指南](firmware/MEDIA_GUIDE_ZH.md)。

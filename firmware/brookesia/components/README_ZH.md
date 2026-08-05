@@ -16,6 +16,7 @@ Brookesia 核心与 SquareLine 演示通过工程 `CMakeLists.txt` 中的
 | 目录 | 启动器应用 |
 | --- | --- |
 | [`brookesia_app_calculator/`](brookesia_app_calculator/) | Calculator（计算器） |
+| [`ButtonTest/`](ButtonTest/) | 直接读取 PWR/EXIO4 与 BOOT/GPIO0 的按键电平测试 |
 | [`Crosshair/`](Crosshair/) | 圆形显示与触摸对齐靶 |
 | [`draw/`](draw/) | DrawPanel（画板） |
 | [`Gallery/`](Gallery/) | SD 卡 JPEG 图库 |
