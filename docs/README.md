@@ -13,9 +13,10 @@ This index separates end-user guides from maintainer references and links each t
 | First-party examples / 第一方示例 | [Example Catalog](examples.md) | [示例目录](examples_ZH.md) |
 | Common failures and safe diagnostics / 常见故障与安全诊断 | [Troubleshooting](troubleshooting.md) | [故障排查](troubleshooting_ZH.md) |
 | Release, source, and factory firmware boundary / 发布、源码与工厂固件边界 | [Firmware and Factory Recovery / 固件与工厂恢复](firmware.md) | [Firmware and Factory Recovery / 固件与工厂恢复](firmware.md) |
-| Factory image, checksum, and SD package / 工厂镜像、校验值与 SD 包 | [Firmware Delivery Guide / 固件交付说明](../firmware/README.md) | [Firmware Delivery Guide / 固件交付说明](../firmware/README.md) |
-| FFmpeg media preparation / FFmpeg 素材制作 | [Media Production Guide / 素材制作指南](../firmware/MEDIA_GUIDE.md) | [Media Production Guide / 素材制作指南](../firmware/MEDIA_GUIDE.md) |
+| Factory image, checksum, and SD package / 工厂镜像、校验值与 SD 包 | [Firmware Delivery Guide](../firmware/README.md) | [固件交付说明](../firmware/README_ZH.md) |
+| FFmpeg media preparation / FFmpeg 素材制作 | [Media Production Guide](../firmware/MEDIA_GUIDE.md) | [素材制作指南](../firmware/MEDIA_GUIDE_ZH.md) |
 | Brookesia architecture and source build / Brookesia 架构与源码构建 | [Brookesia Source Firmware](../firmware/brookesia/README.md) | [Brookesia 源码固件](../firmware/brookesia/README_ZH.md) |
+| Device acceptance / 设备验收 | [Hardware Validation](../firmware/brookesia/HARDWARE_VALIDATION.md) | [硬件验收](../firmware/brookesia/HARDWARE_VALIDATION_ZH.md) |
 
 ## Maintainer References / 维护者参考
 
@@ -24,6 +25,7 @@ This index separates end-user guides from maintainer references and links each t
 | Repository paths and generated output / 仓库路径与生成文件 | [Repository Structure](repository-structure.md) | [仓库结构](repository-structure_ZH.md) |
 | CI matrix and release gate / CI 矩阵与发布门禁 | [Continuous Integration](ci.md) | [持续集成](ci_ZH.md) |
 | Managed and local components / Managed 与本地组件 | [Components](components.md) | [组件说明](components_ZH.md) |
+| Brookesia application components / Brookesia 应用组件 | [Firmware Component Guide](../firmware/brookesia/components/README.md) | [固件组件说明](../firmware/brookesia/components/README_ZH.md) |
 | Packaging and release staging / 打包与 Release 暂存 | [Release Tools](../releases/README.md) | [发布工具](../releases/README_ZH.md) |
 
 For product-specific setup, hardware resources, FAQ, and technical support, use the official

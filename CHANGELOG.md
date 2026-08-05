@@ -12,7 +12,14 @@ All notable repository and firmware changes are documented here.
   `examples/arduino/10_Touch_CST9217/`.
 - Equivalent English and Simplified Chinese repository guides, board-level hardware references,
   user and maintainer documentation, release notes, and public collaboration guidance.
+- Explicit English and Simplified Chinese firmware delivery, media-production, hardware-validation,
+  and local-component guides under `firmware/`.
 - An official Waveshare product image with source and checksum provenance for the repository landing pages.
+
+### Fixed
+
+- Restored the semantic icons on landing-page quick links and the emoji prefixes on all primary
+  sections to match the established Waveshare repository style.
 
 ## [1.0.1] - 2026-07-13
 

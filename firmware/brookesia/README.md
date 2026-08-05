@@ -2,11 +2,11 @@
 
 [简体中文](README_ZH.md)
 
-Customer-facing bilingual delivery and media-production instructions are kept
-in [`../README.md`](../README.md) and
-[`../MEDIA_GUIDE.md`](../MEDIA_GUIDE.md). / 面向客户的中英双语烧录、SD 卡和
-FFmpeg 素材制作说明见 [`../README.md`](../README.md) 与
-[`../MEDIA_GUIDE.md`](../MEDIA_GUIDE.md)。
+Customer-facing delivery and media-production instructions are in
+[`../README.md`](../README.md) and
+[`../MEDIA_GUIDE.md`](../MEDIA_GUIDE.md). Local application, service, and
+safe-override boundaries are documented in the
+[Component Guide](components/README.md).
 
 This project ports the reusable application layer from the
 ESP32-P4-WIFI6-Touch-LCD-4B Brookesia firmware to the

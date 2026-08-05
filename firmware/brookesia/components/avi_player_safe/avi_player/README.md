@@ -1,5 +1,7 @@
 # Safe AVI player 2.0.0 override
 
+[简体中文](README_ZH.md)
+
 This component is derived from Espressif's Apache-2.0 licensed
 `espressif/avi_player` 2.0.0 at commit
 `61935c3499f63781d1392c3bfa8be4a46eaf0bd1`.
@@ -16,8 +18,13 @@ The repository root `LICENSE` contains the Apache License 2.0.
 
 ## Host regression test
 
-Run `tests/host/run_tests.ps1` from the repository root. The test compiles the
-production `avi_player.c` against lightweight pthread-backed ESP-IDF stubs and
-checks immediate START/STOP, natural end followed by deinit, pending STOP plus
-deinit, oversized/truncated headers, simulated media-read failure, and that
-every tracked `FILE` is closed.
+Run the following command from the repository root:
+
+```powershell
+powershell -ExecutionPolicy Bypass -File .\firmware\brookesia\components\avi_player_safe\avi_player\tests\host\run_tests.ps1
+```
+
+The test compiles the production `avi_player.c` against lightweight
+pthread-backed ESP-IDF stubs and checks immediate START/STOP, natural end
+followed by deinit, pending STOP plus deinit, oversized/truncated headers,
+simulated media-read failure, and that every tracked `FILE` is closed.

@@ -59,8 +59,8 @@ v1.0.1 包含的 14 个自有演示已针对该版本完成硬件测试。当前
 | Gravitysphere | 在圆形屏幕边界内移动小球。 | QMI8658 加速度计。 |
 | Crosshair | 显示圆形对准图案和可触摸切换的配色。 | AMOLED 显示屏和触摸。 |
 
-工厂固件烧录、素材目录和硬件验收见中英双语[固件交付说明](../firmware/README.md)和
-[SD 卡素材制作指南](../firmware/MEDIA_GUIDE.md)。
+工厂固件烧录、素材目录和硬件验收见[固件交付说明](../firmware/README_ZH.md)和
+[SD 卡素材制作指南](../firmware/MEDIA_GUIDE_ZH.md)。
 
 ## CI 选择规则
 

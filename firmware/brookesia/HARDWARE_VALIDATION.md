@@ -1,5 +1,7 @@
 # ESP32-S3-Touch-AMOLED-1.75 hardware validation
 
+[简体中文](HARDWARE_VALIDATION_ZH.md)
+
 This checklist validates the Brookesia SD-media build on the target board. A
 failure is not accepted if it causes a reboot, watchdog, stack overflow, white
 screen, partial-screen corruption, leaked SD lease, or audio-owner conflict.

@@ -2,9 +2,10 @@
 
 [English](README.md)
 
-面向客户的中英双语交付说明，以及烧录、SD 卡和 FFmpeg 素材制作说明见
-[`../README.md`](../README.md) 和
-[`../MEDIA_GUIDE.md`](../MEDIA_GUIDE.md)。
+面向客户的交付说明，以及烧录、SD 卡和 FFmpeg 素材制作说明见
+[`../README_ZH.md`](../README_ZH.md) 和
+[`../MEDIA_GUIDE_ZH.md`](../MEDIA_GUIDE_ZH.md)。本地应用、公共服务与安全覆盖层
+的维护边界见[组件说明](components/README_ZH.md)。
 
 本项目将 ESP32-P4-WIFI6-Touch-LCD-4B Brookesia 固件中可复用的应用层
 移植到 ESP32-S3-Touch-AMOLED-1.75。
@@ -68,7 +69,7 @@ JPEG 和 MJPEG/PCM AVI 测试素材。其中六首 WAV 曲目还覆盖 MusicPlay
 ZIP 中还包含中英双语 `README.txt` 和完整的双语 `MEDIA_GUIDE.md`，后者提供了
 适用于本固件的 FFmpeg 和 ffprobe 命令。
 完整的串口、UI、存储、音频资源所有权、安全弹出和耐久性测试流程见
-[`HARDWARE_VALIDATION.md`](HARDWARE_VALIDATION.md)。
+[`HARDWARE_VALIDATION_ZH.md`](HARDWARE_VALIDATION_ZH.md)。
 现在可运行 `tools/hardware_preflight.ps1 -Offline` 验证发布文件哈希和测试素材
 清单；激活 ESP-IDF 并连接目标开发板后，再去掉 `-Offline` 重新运行。
 
@@ -113,8 +114,8 @@ ESP-SR 模型分区预留 960 KB。构建过程会生成并烧录选定的 WakeN
 
 ESP-IDF v5.5.4 构建成功可验证全部十二个应用、存储镜像和 ESP-SR 模型镜像能够
 一同完成编译与打包。当前带日期的出厂固件及其交付检查记录见
-[`../README.md`](../README.md)。任何源码变更后，重新生成的出厂固件候选版本
-必须再次完成 [`HARDWARE_VALIDATION.md`](HARDWARE_VALIDATION.md) 中针对目标
+[`../README_ZH.md`](../README_ZH.md)。任何源码变更后，重新生成的出厂固件候选版本
+必须再次完成 [`HARDWARE_VALIDATION_ZH.md`](HARDWARE_VALIDATION_ZH.md) 中针对目标
 开发板的检查，包括显示、触摸、AXP2101 电量计行为、QMI8658 方向、Wi-Fi、
 麦克风/扬声器音频、存储以及长时间应用切换；通过这些检查后，才可替换已发布的
 出厂固件。
