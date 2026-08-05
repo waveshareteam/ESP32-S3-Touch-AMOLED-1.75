@@ -1,5 +1,7 @@
 # Components
 
+[简体中文](components_ZH.md)
+
 This repository prefers managed components for reusable BSP, display, touch, sensor, and helper code. Local components should be limited to example-specific glue or temporary compatibility code.
 
 ## Registry Snapshot

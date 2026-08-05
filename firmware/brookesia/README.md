@@ -1,5 +1,7 @@
 # Brookesia firmware
 
+[简体中文](README_ZH.md)
+
 Customer-facing bilingual delivery and media-production instructions are kept
 in [`../README.md`](../README.md) and
 [`../MEDIA_GUIDE.md`](../MEDIA_GUIDE.md). / 面向客户的中英双语烧录、SD 卡和
@@ -122,8 +124,12 @@ partition table, `srmodels.bin`, application, and `storage.bin` must all match.
 
 ## Hardware validation
 
-The ESP-IDF v5.5.4 build verifies all twelve applications, the storage image,
-and the ESP-SR model image. Display, touch, AXP2101 fuel-gauge behavior,
-QMI8658 orientation, Wi-Fi, microphone/speaker audio, and long-running
-application switching still require validation on the target board before
-this firmware is treated as a factory image.
+A successful ESP-IDF v5.5.4 build verifies that all twelve applications, the
+storage image, and the ESP-SR model image compile and package together. The
+current dated factory image and its delivery checks are documented in
+[`../README.md`](../README.md). After any source change, a regenerated factory
+candidate must repeat the target-board checks in
+[`HARDWARE_VALIDATION.md`](HARDWARE_VALIDATION.md), including display, touch,
+AXP2101 fuel-gauge behavior, QMI8658 orientation, Wi-Fi, microphone/speaker
+audio, storage, and long-running application switching, before it replaces the
+published factory image.
