@@ -67,7 +67,7 @@ python -m esptool --chip esp32s3 --port COMx --baud 460800 --before default_rese
 ```
 
 正常更新不需要擦除整片 Flash。已发布的校验值、SD 卡素材包和实机验证步骤见中英双语
-[固件交付说明](../firmware/README.md)。
+[固件交付说明](../firmware/README_ZH.md)。
 
 ## 使用 ESP-IDF 构建
 
@@ -131,4 +131,4 @@ arduino-cli compile \
 
 完整源码示例列表见[示例目录](examples_ZH.md)，共享总线和外设分配见
 [硬件参考](../HARDWARE_REFERENCE_ZH.md)，烧录与运行故障见[故障排查](troubleshooting_ZH.md)。
-工厂固件所需的媒体格式和 FFmpeg 命令见中英双语 [SD 卡素材制作指南](../firmware/MEDIA_GUIDE.md)。
+工厂固件所需的媒体格式和 FFmpeg 命令见 [SD 卡素材制作指南](../firmware/MEDIA_GUIDE_ZH.md)。

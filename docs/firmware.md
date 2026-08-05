@@ -2,14 +2,18 @@
 
 ## Customer documentation / 客户文档
 
-The dated factory image and SD-card package have bilingual customer-facing instructions in
-`firmware/README.md`. Firmware-specific image, WAV, MP3, and MJPEG/PCM AVI production commands are
-documented in `firmware/MEDIA_GUIDE.md`; the same guide and a bilingual quick-start file are included
-in the SD ZIP.
+The dated factory image and SD-card package are documented in
+`firmware/README.md`, with Simplified Chinese in `firmware/README_ZH.md`.
+Firmware-specific image, WAV, MP3, and MJPEG/PCM AVI commands are documented
+in `firmware/MEDIA_GUIDE.md`, with Simplified Chinese in
+`firmware/MEDIA_GUIDE_ZH.md`. The dated SD ZIP keeps a self-contained
+bilingual snapshot of the media guide and quick-start instructions.
 
-带日期的工厂固件与 SD 卡素材包说明见中英双语的 `firmware/README.md`。图片、WAV、MP3 以及
-MJPEG/PCM AVI 的固件专用 FFmpeg 制作和 ffprobe 校验命令见 `firmware/MEDIA_GUIDE.md`；SD ZIP
-内也包含同一份双语指南和双语快速说明。
+带日期的工厂固件与 SD 卡素材包说明见 `firmware/README_ZH.md`，英文版见
+`firmware/README.md`。图片、WAV、MP3 以及 MJPEG/PCM AVI 的固件专用 FFmpeg
+制作和 ffprobe 校验命令见 `firmware/MEDIA_GUIDE_ZH.md`，英文版见
+`firmware/MEDIA_GUIDE.md`。带日期的 SD ZIP 中保留一份可独立阅读的双语素材指南
+与双语快速说明快照。
 
 This repository contains three separate firmware forms: tagged CI builds, the source-maintained
 Brookesia port, and a factory recovery image.

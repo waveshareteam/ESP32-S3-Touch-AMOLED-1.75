@@ -131,7 +131,7 @@ python -m esptool --chip esp32s3 --port PORT erase_flash
 - 如果打开应用导致复位，请记录第一次 Panic/回溯以及紧邻它之前的日志。不要把无声、音频忙提示
   和重启当成同一种故障。
 
-要进行可重复验证，请使用 [SD 卡素材制作指南](../firmware/MEDIA_GUIDE.md)规定的 WAV 配置和测试
+要进行可重复验证，请使用 [SD 卡素材制作指南](../firmware/MEDIA_GUIDE_ZH.md)规定的 WAV 配置和测试
 素材。
 
 ## SpecAnalyzer、Recorder、ES7210 或麦克风异常
@@ -162,7 +162,7 @@ python -m esptool --chip esp32s3 --port PORT erase_flash
   是 SD 卡还是显示问题。
 
 准确目录、FFmpeg 命令、`ffprobe` 检查、安全弹出行为和 Recorder 恢复方法见
-[SD 卡素材制作指南](../firmware/MEDIA_GUIDE.md)。
+[SD 卡素材制作指南](../firmware/MEDIA_GUIDE_ZH.md)。
 
 ## Arduino Core、开发板或库冲突
 

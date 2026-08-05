@@ -138,4 +138,6 @@ selects an incompatible copy.
 See the [Example Catalog](examples.md) for the complete source-example list, the
 [Hardware Reference](../HARDWARE_REFERENCE.md) for shared buses and peripheral assignments, and
 [Troubleshooting](troubleshooting.md) for flashing and runtime failures. Factory-firmware media
-requirements and FFmpeg recipes are in the bilingual [SD-card Media Guide](../firmware/MEDIA_GUIDE.md).
+requirements and FFmpeg recipes are in the
+[SD-card Media Guide](../firmware/MEDIA_GUIDE.md)
+([简体中文](../firmware/MEDIA_GUIDE_ZH.md)).

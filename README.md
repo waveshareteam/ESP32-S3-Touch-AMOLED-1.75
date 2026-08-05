@@ -8,19 +8,19 @@
   </p>
   <p>
     <a href="README_ZH.md">简体中文</a> ·
-    <a href="https://www.waveshare.com/product/esp32-s3-touch-amoled-1.75.htm">Product Page</a> ·
-    <a href="https://docs.waveshare.com/ESP32-S3-Touch-AMOLED-1.75">Product Documentation</a> ·
-    <a href="https://github.com/waveshareteam/ESP32-S3-Touch-AMOLED-1.75/releases/latest">Firmware Releases</a> ·
-    <a href="docs/getting-started.md">Getting Started</a> ·
-    <a href="examples/esp-idf/">ESP-IDF</a> ·
-    <a href="examples/arduino/">Arduino</a>
+    <a href="https://www.waveshare.com/product/esp32-s3-touch-amoled-1.75.htm">🌐 Product Page</a> ·
+    <a href="https://docs.waveshare.com/ESP32-S3-Touch-AMOLED-1.75">📚 Product Documentation</a> ·
+    <a href="https://github.com/waveshareteam/ESP32-S3-Touch-AMOLED-1.75/releases/latest">📦 Firmware Releases</a> ·
+    <a href="docs/getting-started.md">🚀 Getting Started</a> ·
+    <a href="examples/esp-idf/">🧩 ESP-IDF Examples</a> ·
+    <a href="examples/arduino/">🔧 Arduino Examples</a>
   </p>
   <img src="assets/ESP32-S3-Touch-AMOLED-1.75-details-1.jpg" alt="ESP32-S3-Touch-AMOLED-1.75" width="500">
 </div>
 
 ---
 
-## Overview
+## ✨ Overview
 
 This repository provides example software, reproducible release firmware, the source-maintained
 Brookesia application firmware, a complete factory recovery image, schematics, and bilingual user
@@ -41,7 +41,7 @@ speaker output, and microSD storage in a compact platform.
 Check the official product page for the contents and options supplied with each variant. Examples
 that require GNSS do not apply to the standard or `-B` variant.
 
-## Hardware Overview
+## 🖥️ Hardware Overview
 
 | Feature | Device / interface |
 | --- | --- |
@@ -64,7 +64,7 @@ that require GNSS do not apply to the standard or `-B` variant.
 See [Hardware Reference](HARDWARE_REFERENCE.md) for the GPIO map, I2C addresses, audio and SD buses,
 expansion header, and shared-resource notes.
 
-## Firmware Quick Start
+## 📦 Firmware Quick Start
 
 Choose the firmware form that matches the task:
 
@@ -88,10 +88,10 @@ Choose the firmware form that matches the task:
 > offset-addressed binaries, helper scripts, command files, a manifest, and checksums.
 
 Do not mix a release example, the factory image, or split binaries from different packages. The
-factory image has its own verified command and checksum in the bilingual
+factory image has its own verified command and checksum in the
 [Firmware Delivery Guide](firmware/README.md). A normal update does not require erasing flash.
 
-## Brookesia Application Firmware
+## 📱 Brookesia Application Firmware
 
 The source-maintained factory application provides twelve round-screen applications:
 
@@ -102,10 +102,10 @@ The source-maintained factory application provides twelve round-screen applicati
 - AIChats with optional text-history storage and Gravitysphere driven by the QMI8658 IMU.
 
 The status bar follows live battery and Wi-Fi state. The media applications, generated fixture
-formats, FFmpeg commands, privacy notes, and SD-card layout are documented in the bilingual
+formats, FFmpeg commands, privacy notes, and SD-card layout are documented in the
 [Media Production Guide](firmware/MEDIA_GUIDE.md).
 
-## Examples
+## 🧪 Examples
 
 ### ESP-IDF
 
@@ -136,7 +136,7 @@ Bundled Arduino libraries live under [`examples/arduino/libraries`](examples/ard
 Their upstream samples are dependencies, not first-party product firmware targets. See the complete
 [Example Catalog](docs/examples.md).
 
-## Supported Toolchains
+## 🛠️ Supported Toolchains
 
 | Surface | Validated version | Projects | Firmware builds |
 | --- | --- | ---: | ---: |
@@ -150,7 +150,7 @@ runs two discovery jobs and 20 build/package jobs for the current source tree. T
 release predates `10_Touch_CST9217` and contains 19 firmware packages. See
 [Continuous Integration](docs/ci.md) for the matrix and release gate.
 
-## Repository Layout
+## 🗂️ Repository Layout
 
 | Path | Purpose |
 | --- | --- |
@@ -167,7 +167,7 @@ release predates `10_Touch_CST9217` and contains 19 firmware packages. See
 | [`scripts/`](scripts/) | CI example-discovery helpers |
 | [`.github/`](.github/) | GitHub Actions and public collaboration templates |
 
-## Documentation
+## 📚 Documentation
 
 - [Documentation Index / 文档中心](docs/README.md)
 - [Getting Started](docs/getting-started.md) / [快速开始](docs/getting-started_ZH.md)
@@ -175,9 +175,11 @@ release predates `10_Touch_CST9217` and contains 19 firmware packages. See
 - [Example Catalog](docs/examples.md) / [示例目录](docs/examples_ZH.md)
 - [Troubleshooting](docs/troubleshooting.md) / [故障排查](docs/troubleshooting_ZH.md)
 - [Firmware and Factory Recovery / 固件与工厂恢复](docs/firmware.md)
-- [Firmware Delivery Guide / 固件交付说明](firmware/README.md)
-- [Media Production Guide / 素材制作指南](firmware/MEDIA_GUIDE.md)
+- [Firmware Delivery Guide](firmware/README.md) / [固件交付说明](firmware/README_ZH.md)
+- [Media Production Guide](firmware/MEDIA_GUIDE.md) / [素材制作指南](firmware/MEDIA_GUIDE_ZH.md)
 - [Brookesia Source Firmware](firmware/brookesia/README.md) / [Brookesia 源码固件](firmware/brookesia/README_ZH.md)
+- [Hardware Validation](firmware/brookesia/HARDWARE_VALIDATION.md) / [硬件验收](firmware/brookesia/HARDWARE_VALIDATION_ZH.md)
+- [Firmware Component Guide](firmware/brookesia/components/README.md) / [固件组件说明](firmware/brookesia/components/README_ZH.md)
 - [Repository Structure](docs/repository-structure.md) / [仓库结构](docs/repository-structure_ZH.md)
 - [Continuous Integration](docs/ci.md) / [持续集成](docs/ci_ZH.md)
 - [Components](docs/components.md) / [组件说明](docs/components_ZH.md)
@@ -188,7 +190,7 @@ release predates `10_Touch_CST9217` and contains 19 firmware packages. See
 - [Official FAQ](https://docs.waveshare.com/ESP32-S3-Touch-AMOLED-1.75/FAQ)
 - [Official Technical Support](https://docs.waveshare.com/ESP32-S3-Touch-AMOLED-1.75/Technical-Support)
 
-## Support and Contributions
+## 🤝 Support and Contributions
 
 Contributions and reproducible issue reports are welcome. Include the board variant, example path,
 framework version, reproduction steps, expected and actual behavior, and the smallest relevant log
@@ -200,6 +202,6 @@ addresses, and other private or customer-specific data before publishing logs or
 - [Security Policy](SECURITY.md) / [安全策略](SECURITY_ZH.md)
 - [Open an Issue](https://github.com/waveshareteam/ESP32-S3-Touch-AMOLED-1.75/issues/new/choose)
 
-## License
+## 📄 License
 
 This repository is licensed under the Apache License 2.0. See [LICENSE](LICENSE).
