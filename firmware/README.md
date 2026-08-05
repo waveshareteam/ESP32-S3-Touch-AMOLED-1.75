@@ -43,11 +43,16 @@ duplicated or translated here.
 - Flash size: 16 MiB
 - Flash offset: `0x0`
 - File size: 16,777,216 bytes
-- SHA-256: `0876f10a6f2a693d83d51c417e44131ed2c81b952c78d6cd794b03bfa3e218d2`
+- Application version: `v1.0.1-9-gec7380d`
+- Source revision: `ec7380d2aef4d54816a29d7940ef8f756e4bbd1b`
+- SHA-256: `2b7e01ff1f37027385a3820e006f945464cfcee2a05954b3239cf75f250080b6`
 
 The image already combines the bootloader, partition table, initial OTA data,
 ESP-SR models, Brookesia application, and SPIFFS filesystem. It is a complete
 image; do not mix it with offset binaries from another build.
+
+This delivery includes the Button Test application for independently checking
+the conditioned PWR input on TCA9554 EXIO4 and the BOOT input on GPIO0.
 
 Verify the file first:
 

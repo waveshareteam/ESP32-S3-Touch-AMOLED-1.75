@@ -40,10 +40,15 @@
 - Flash 容量：16 MiB
 - 烧录地址：`0x0`
 - 文件大小：16,777,216 字节
-- SHA-256：`0876f10a6f2a693d83d51c417e44131ed2c81b952c78d6cd794b03bfa3e218d2`
+- 应用版本：`v1.0.1-9-gec7380d`
+- 源码版本：`ec7380d2aef4d54816a29d7940ef8f756e4bbd1b`
+- SHA-256：`2b7e01ff1f37027385a3820e006f945464cfcee2a05954b3239cf75f250080b6`
 
 该镜像已经合并 Bootloader、分区表、初始 OTA 数据、ESP-SR 模型、Brookesia 主程序和
 SPIFFS 文件系统。它是完整镜像，不要再与其他构建生成的分区文件混合烧录。
+
+本次交付已包含 Button Test 应用，可分别检查 TCA9554 EXIO4 上经过整形的 PWR 输入，
+以及 GPIO0 上的 BOOT 输入。
 
 先校验文件：
 
