@@ -7,7 +7,8 @@ published in GitHub Releases comes from this workflow; release firmware is not c
 
 - ESP-IDF projects are direct children of `examples/esp-idf/` containing `CMakeLists.txt`.
 - Arduino sketches are direct children of `examples/arduino/` containing a top-level `.ino` file.
-- `examples/arduino/libraries/**`, local component samples, and `firmware/**` are excluded.
+- `examples/arduino/libraries/**`, local component samples, and `firmware/**` are excluded. The
+  standalone `firmware/brookesia/` project is built manually with ESP-IDF 5.5.
 
 The `workflow_dispatch` selector accepts `all`, an example directory name, or a repository-relative
 path.

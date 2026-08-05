@@ -61,9 +61,16 @@ The fastest way to try an example is to use a ready-to-flash package from the
 > Combined images are flashed at offset `0x0`. Each package also contains the
 > original split binaries, flash arguments, helper scripts, and checksums.
 
-Factory recovery images under [firmware](firmware/) are separate from
-CI-generated example firmware. See
+The [firmware](firmware/) directory contains the source-maintained Brookesia
+port and a separate factory recovery image; neither is a CI-generated example
+package. See
 [Firmware and Factory Recovery](docs/firmware.md) for details.
+
+The Brookesia source firmware provides twelve applications, including live
+dual-microphone spectrum analysis through ES7210, SD music/photo/video media,
+stereo WAV recording, AIChats, AXP2101-backed power status, native Wi-Fi status,
+circular QMI8658-driven Gravitysphere motion, and a full-screen Crosshair
+panel-alignment target.
 
 ## 🧪 Examples
 
@@ -119,7 +126,7 @@ firmware packages.
 | --- | --- |
 | [`examples/esp-idf/`](examples/esp-idf/) | First-party ESP-IDF projects |
 | [`examples/arduino/`](examples/arduino/) | First-party Arduino sketches and bundled libraries |
-| [`firmware/`](firmware/) | Factory flashing and recovery binary |
+| [`firmware/`](firmware/) | Brookesia source firmware and factory recovery binary |
 | [`releases/`](releases/) | Packaging, artifact download, and release tools |
 | [`config/`](config/) | Shared ESP-IDF compatibility overlays |
 | [`docs/`](docs/) | Setup, example, CI, component, firmware, and troubleshooting notes |

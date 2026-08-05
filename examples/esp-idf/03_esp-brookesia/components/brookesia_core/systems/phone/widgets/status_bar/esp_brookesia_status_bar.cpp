@@ -453,7 +453,7 @@ bool StatusBar::setBatteryPercent(bool charge_flag, int percent) const
 {
     ESP_UTILS_LOGD("Set battery percent(0x%p: %d%%)", this, percent);
 
-    percent = max(min(percent, 100), 1);
+    percent = max(min(percent, 100), 0);
     if (_data.flags.enable_battery_label && (_battery_label != nullptr)) {
         lv_label_set_text_fmt(_battery_label.get(), "%d%%", percent);
     }
@@ -462,7 +462,7 @@ bool StatusBar::setBatteryPercent(bool charge_flag, int percent) const
         if (charge_flag) {
             _battery_state = 4;
         } else {
-            _battery_state = (int)((percent - 1) / 25);
+            _battery_state = (percent == 0) ? 0 : (int)((percent - 1) / 25);
         }
         ESP_UTILS_CHECK_FALSE_RETURN(setIconState(_battery_id, _battery_state), false, "Set battery icon state failed");
     }

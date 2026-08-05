@@ -11,7 +11,7 @@ discovered consistently.
 - `config/`: shared ESP-IDF compatibility overlays.
 - `docs/`: setup, example, CI, component, firmware, and troubleshooting documentation.
 - `releases/`: firmware packaging, download, and release staging helpers.
-- `firmware/`: factory recovery firmware.
+- `firmware/`: source-maintained Brookesia firmware and the factory recovery image.
 - `Schematic/`: hardware schematic material.
 - `.github/`: GitHub Actions and public collaboration templates.
 
@@ -33,7 +33,8 @@ CI discovers only:
 - Direct children of `examples/arduino/` containing a top-level `.ino` file.
 
 Examples inside bundled libraries and local components are upstream samples, not product firmware
-targets. Factory binaries are released artifacts and are not source build inputs.
+targets. `firmware/brookesia/` is a standalone source project outside this discovery boundary, while
+factory binaries are released artifacts and are not source build inputs.
 
 ## Generated Output Boundary
 
