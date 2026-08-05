@@ -140,11 +140,11 @@ def build_esptool_prefix(chip: str, before: str, after: str) -> list[str]:
 
 
 def shell_command(parts: Iterable[str]) -> str:
-    return " ".join("$PORT" if part == "$PORT" else quote_shell(part) for part in parts)
+    return " ".join('"$PORT"' if part == "$PORT" else quote_shell(part) for part in parts)
 
 
 def batch_command(parts: Iterable[str]) -> str:
-    return " ".join("%PORT%" if part == "$PORT" else quote_batch(part) for part in parts)
+    return " ".join('"%PORT%"' if part == "$PORT" else quote_batch(part) for part in parts)
 
 
 def sha256_file(path: Path) -> str:
@@ -207,9 +207,9 @@ cd "$(dirname "$0")"
 {shell_command(command)}
 """
     batch = f"""@echo off
-set PORT=%1
+set "PORT=%~1"
 if "%PORT%"=="" (
-  echo Usage: flash.bat COMx
+  echo Usage: %~nx0 COMx
   exit /b 2
 )
 cd /d %~dp0
@@ -291,6 +291,10 @@ def package(args: argparse.Namespace) -> Path:
     package_dir = output_dir / artifact_name
     firmware_dir = package_dir / "bin"
 
+    resolved_output_dir = output_dir.resolve()
+    resolved_package_dir = package_dir.resolve()
+    if resolved_package_dir.parent != resolved_output_dir:
+        raise ValueError(f"package directory escapes output directory: {resolved_package_dir}")
     if package_dir.exists():
         shutil.rmtree(package_dir)
     firmware_dir.mkdir(parents=True, exist_ok=True)
@@ -323,6 +327,7 @@ def package(args: argparse.Namespace) -> Path:
         "target": chip,
         "project": safe_project_path(project, repo),
         "git_sha": args.git_sha,
+        "git_dirty": args.git_dirty,
         "generated_at": datetime.now(timezone.utc).isoformat(),
         "baud": DEFAULT_BAUD,
         "files": files,
@@ -352,6 +357,11 @@ def main() -> int:
     parser.add_argument("--framework-version", help="ESP-IDF tag or Arduino core version.")
     parser.add_argument("--target", default="esp32s3")
     parser.add_argument("--git-sha", default="")
+    parser.add_argument(
+        "--git-dirty",
+        action="store_true",
+        help="Record that the package was built from an uncommitted working tree",
+    )
     args = parser.parse_args()
     try:
         package(args)

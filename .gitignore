@@ -17,3 +17,7 @@
 release-artifacts/
 releases/dist/
 releases/downloads/
+
+# Local copies of reference-project audio are kept outside the SPIFFS input
+# and must never enter source or firmware release artifacts.
+firmware/brookesia/excluded-media-reference/

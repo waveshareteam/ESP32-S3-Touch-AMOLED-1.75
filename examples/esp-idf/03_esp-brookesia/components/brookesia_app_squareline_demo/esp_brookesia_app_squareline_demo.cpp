@@ -23,6 +23,74 @@ LV_IMG_DECLARE(esp_brookesia_app_icon_launcher_squareline_112_112);
 
 namespace esp_brookesia::apps {
 
+static bool isRoundSquarelineScreen(void)
+{
+    if (ui_screen_splash == nullptr) {
+        return false;
+    }
+
+    lv_obj_update_layout(ui_screen_splash);
+    const int32_t width = lv_obj_get_width(ui_screen_splash);
+    const int32_t height = lv_obj_get_height(ui_screen_splash);
+    const int32_t delta = width - height;
+    return width >= 300 && height >= 300 && delta >= -8 && delta <= width / 4;
+}
+
+static void adaptSquarelineUiToRoundScreen(void)
+{
+    if (!isRoundSquarelineScreen()) {
+        return;
+    }
+
+    const int32_t screen_width = lv_obj_get_width(ui_screen_splash);
+    const int32_t screen_height = lv_obj_get_height(ui_screen_splash);
+    const int32_t safe_width = screen_width * 70 / 100;
+
+    // These two clickable images were anchored in the lower physical corners.
+    // Preserve their vertical position while bringing both toward the center.
+    if (ui_music_player_image_backward != nullptr) {
+        lv_obj_set_align(ui_music_player_image_backward, LV_ALIGN_BOTTOM_MID);
+        lv_obj_set_x(ui_music_player_image_backward, -screen_width * 15 / 100);
+    }
+    if (ui_music_player_image_forward != nullptr) {
+        lv_obj_set_align(ui_music_player_image_forward, LV_ALIGN_BOTTOM_MID);
+        lv_obj_set_x(ui_music_player_image_forward, screen_width * 15 / 100);
+    }
+
+    lv_obj_t *alarm_rows[] = {
+        ui_alarm_alarm_comp_alarm_comp,
+        ui_alarm_alarm_comp_alarm_comp1,
+        ui_alarm_alarm_comp_alarm_comp2,
+        ui_alarm_alarm_comp_alarm_comp3,
+    };
+    static constexpr int32_t alarm_y_percent[] = {13, 31, 49, 68};
+    for (size_t i = 0; i < sizeof(alarm_rows) / sizeof(alarm_rows[0]); ++i) {
+        if (alarm_rows[i] != nullptr) {
+            lv_obj_set_width(alarm_rows[i], safe_width);
+            lv_obj_set_align(alarm_rows[i], LV_ALIGN_TOP_MID);
+            lv_obj_set_x(alarm_rows[i], 0);
+            lv_obj_set_y(alarm_rows[i], alarm_y_percent[i] * screen_height / 100);
+        }
+    }
+
+    lv_obj_t *chat_rows[] = {ui_chat_panel_c1, ui_chat_panel_c2, ui_chat_panel_c3};
+    static constexpr int32_t chat_y_percent[] = {13, 34, 58};
+    for (size_t i = 0; i < sizeof(chat_rows) / sizeof(chat_rows[0]); ++i) {
+        if (chat_rows[i] != nullptr) {
+            lv_obj_set_width(chat_rows[i], safe_width);
+            lv_obj_set_align(chat_rows[i], LV_ALIGN_TOP_MID);
+            lv_obj_set_x(chat_rows[i], 0);
+            lv_obj_set_y(chat_rows[i], chat_y_percent[i] * screen_height / 100);
+        }
+    }
+
+    if (ui_weather_panel_weather_icons != nullptr) {
+        lv_obj_set_width(ui_weather_panel_weather_icons, safe_width);
+        lv_obj_set_align(ui_weather_panel_weather_icons, LV_ALIGN_BOTTOM_MID);
+        lv_obj_set_x(ui_weather_panel_weather_icons, 0);
+    }
+}
+
 SquarelineDemo *SquarelineDemo::_instance = nullptr;
 
 SquarelineDemo *SquarelineDemo::requestInstance(bool use_status_bar, bool use_navigation_bar)
@@ -48,6 +116,7 @@ bool SquarelineDemo::run(void)
 
     // Create all UI resources here
     phone_app_squareline_ui_init();
+    adaptSquarelineUiToRoundScreen();
 
     return true;
 }

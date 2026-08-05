@@ -1,0 +1,10 @@
+version: "2.0.0"
+description: >-
+  Local safety override of Espressif avi_player 2.0.0 with checked file I/O
+  and deterministic stop/deinit resource ownership.
+repository: https://github.com/espressif/esp-iot-solution.git
+repository_info:
+  commit_sha: 61935c3499f63781d1392c3bfa8be4a46eaf0bd1
+  path: components/avi_player
+dependencies:
+  idf: ">=4.4"
