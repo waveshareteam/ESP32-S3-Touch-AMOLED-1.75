@@ -16,6 +16,7 @@ in the project `CMakeLists.txt`; they are intentionally not duplicated here.
 | Directory | Launcher application |
 | --- | --- |
 | [`brookesia_app_calculator/`](brookesia_app_calculator/) | Calculator |
+| [`ButtonTest/`](ButtonTest/) | Direct PWR/EXIO4 and BOOT/GPIO0 level test |
 | [`Crosshair/`](Crosshair/) | Circular display and touch alignment target |
 | [`draw/`](draw/) | DrawPanel |
 | [`Gallery/`](Gallery/) | SD-card JPEG gallery |

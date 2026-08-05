@@ -88,13 +88,14 @@ GPIO 映射、I2C 地址、音频与 SD 总线、扩展排针和共享资源注�
 
 ## 📱 Brookesia 应用固件
 
-通过源码维护的工厂应用包含 12 个适配圆形屏幕的应用：
+通过源码维护的工厂应用包含 13 个适配圆形屏幕的应用：
 
 - SquareLine、Calculator、DrawPanel 与 Crosshair。
 - 使用 ES7210 双麦克风输入的 SpecAnalyzer 与 Recorder。
 - 使用 microSD 卡的 MusicPlayer、Gallery 与 VideoPlayer。
 - Settings：显示实时 AXP2101 电池信息、原生 Wi-Fi 状态、存储诊断并支持安全弹出。
 - AIChats：可选保存文本历史；Gravitysphere：由 QMI8658 IMU 驱动。
+- Button Test：直接读取 PWR/EXIO4 与 BOOT/GPIO0 的电平并完成按键诊断。
 
 状态栏会跟随真实电池和 Wi-Fi 状态。媒体应用、合成测试素材格式、FFmpeg 命令、隐私提示与 SD 卡
 目录结构见[素材制作指南](firmware/MEDIA_GUIDE_ZH.md)。
@@ -140,7 +141,7 @@ Arduino 捆绑库位于 [`examples/arduino/libraries`](examples/arduino/librarie
 
 [Build Examples 工作流](https://github.com/waveshareteam/ESP32-S3-Touch-AMOLED-1.75/actions/workflows/examples.yml)
 针对当前源码树运行 2 个发现任务和 20 个构建/打包任务。历史 v1.0.1 发布早于
-`10_Touch_CST9217`，因此包含 19 个固件包。矩阵与发布门禁见[持续集成](docs/ci.md)。
+`10_Touch_CST9217`，因此包含 19 个固件包。矩阵与发布门禁见[持续集成](docs/ci_ZH.md)。
 
 ## 🗂️ 仓库结构
 
@@ -161,22 +162,22 @@ Arduino 捆绑库位于 [`examples/arduino/libraries`](examples/arduino/librarie
 
 ## 📚 文档
 
-- [文档中心 / Documentation Index](docs/README.md)
-- [快速开始](docs/getting-started_ZH.md) / [Getting Started](docs/getting-started.md)
-- [硬件参考](HARDWARE_REFERENCE_ZH.md) / [Hardware Reference](HARDWARE_REFERENCE.md)
-- [示例目录](docs/examples_ZH.md) / [Example Catalog](docs/examples.md)
-- [故障排查](docs/troubleshooting_ZH.md) / [Troubleshooting](docs/troubleshooting.md)
-- [固件与工厂恢复 / Firmware and Factory Recovery](docs/firmware.md)
-- [固件交付说明](firmware/README_ZH.md) / [Firmware Delivery Guide](firmware/README.md)
-- [素材制作指南](firmware/MEDIA_GUIDE_ZH.md) / [Media Production Guide](firmware/MEDIA_GUIDE.md)
-- [Brookesia 源码固件](firmware/brookesia/README_ZH.md) / [Brookesia Source Firmware](firmware/brookesia/README.md)
-- [硬件验收](firmware/brookesia/HARDWARE_VALIDATION_ZH.md) / [Hardware Validation](firmware/brookesia/HARDWARE_VALIDATION.md)
-- [固件组件说明](firmware/brookesia/components/README_ZH.md) / [Firmware Component Guide](firmware/brookesia/components/README.md)
-- [仓库结构](docs/repository-structure_ZH.md) / [Repository Structure](docs/repository-structure.md)
-- [持续集成](docs/ci_ZH.md) / [Continuous Integration](docs/ci.md)
-- [组件说明](docs/components_ZH.md) / [Components](docs/components.md)
-- [发布工具](releases/README_ZH.md) / [Release Tools](releases/README.md)
-- [变更记录](CHANGELOG_ZH.md) / [Changelog](CHANGELOG.md)
+- [文档中心](docs/README_ZH.md)
+- [快速开始](docs/getting-started_ZH.md)
+- [硬件参考](HARDWARE_REFERENCE_ZH.md)
+- [示例目录](docs/examples_ZH.md)
+- [故障排查](docs/troubleshooting_ZH.md)
+- [固件与工厂恢复](docs/firmware_ZH.md)
+- [固件交付说明](firmware/README_ZH.md)
+- [素材制作指南](firmware/MEDIA_GUIDE_ZH.md)
+- [Brookesia 源码固件](firmware/brookesia/README_ZH.md)
+- [硬件验收](firmware/brookesia/HARDWARE_VALIDATION_ZH.md)
+- [固件组件说明](firmware/brookesia/components/README_ZH.md)
+- [仓库结构](docs/repository-structure_ZH.md)
+- [持续集成](docs/ci_ZH.md)
+- [组件说明](docs/components_ZH.md)
+- [发布工具](releases/README_ZH.md)
+- [变更记录](CHANGELOG_ZH.md)
 - [官方产品文档](https://docs.waveshare.net/ESP32-S3-Touch-AMOLED-1.75/)
 - [官方相关资料](https://docs.waveshare.net/ESP32-S3-Touch-AMOLED-1.75/Resources-And-Documents/)
 - [官方 FAQ](https://docs.waveshare.net/ESP32-S3-Touch-AMOLED-1.75/FAQ/)

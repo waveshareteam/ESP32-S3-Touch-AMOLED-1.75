@@ -41,6 +41,9 @@ Included applications:
   its glow constrained to the panel's true circular boundary
 - Crosshair, a full-screen circular alignment target with concentric rings,
   cardinal ticks, center axes, and touch-selectable contrast palettes
+- Button Test with live raw levels and latched pass results for the PWR and
+  BOOT keys; PWR is read directly from TCA9554 EXIO4 and BOOT from GPIO0,
+  without reading AXP2101 button registers
 
 ## SD card layout
 
@@ -91,13 +94,14 @@ nonexistent rectangular corners. The launcher uses a centered 2 x 2 safe grid
 per page and preserves each 112 x 112 icon instead of shrinking it into the
 generic rectangular-phone layout.
 
-The Crosshair launcher icon is kept as a 112 x 112 rounded PNG and converted
-to `ARGB8888` C data with the official LVGL v9 `scripts/LVGLImage.py` tool from
-the managed `lvgl` component. After dependencies are resolved, it can be
-regenerated with:
+The Crosshair and Button Test launcher icons are kept as 112 x 112 rounded PNG
+files and converted to `ARGB8888` C data with the official LVGL v9
+`scripts/LVGLImage.py` tool from the managed `lvgl` component. After
+dependencies are resolved, they can be regenerated with:
 
 ```text
 python managed_components/lvgl__lvgl/scripts/LVGLImage.py --ofmt C --cf ARGB8888 --name img_app_crosshair --output components/Crosshair/assets components/Crosshair/assets/img_app_crosshair.png
+python managed_components/lvgl__lvgl/scripts/LVGLImage.py --ofmt C --cf ARGB8888 --name img_app_button_test --output components/ButtonTest/assets components/ButtonTest/assets/img_app_button_test.png
 ```
 
 ## Build
@@ -124,7 +128,7 @@ partition table, `srmodels.bin`, application, and `storage.bin` must all match.
 
 ## Hardware validation
 
-A successful ESP-IDF v5.5.4 build verifies that all twelve applications, the
+A successful ESP-IDF v5.5.4 build verifies that all thirteen applications, the
 storage image, and the ESP-SR model image compile and package together. The
 current dated factory image and its delivery checks are documented in
 [`../README.md`](../README.md). After any source change, a regenerated factory

@@ -8,6 +8,9 @@ All notable repository and firmware changes are documented here.
 
 ### Added
 
+- A Brookesia Button Test factory application that reads the conditioned PWR
+  signal from TCA9554 EXIO4 and BOOT from GPIO0, with live levels and latched
+  pass results and no AXP2101 button-register dependency.
 - Board-specific CST9217 raw single- and two-point touch diagnostic under
   `examples/arduino/10_Touch_CST9217/`.
 - Equivalent English and Simplified Chinese repository guides, board-level hardware references,

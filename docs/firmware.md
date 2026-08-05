@@ -1,127 +1,80 @@
-# Firmware Artifacts / 固件产物
+# Firmware Artifacts
 
-## Customer documentation / 客户文档
+[简体中文](firmware_ZH.md)
 
-The dated factory image and SD-card package are documented in
-`firmware/README.md`, with Simplified Chinese in `firmware/README_ZH.md`.
-Firmware-specific image, WAV, MP3, and MJPEG/PCM AVI commands are documented
-in `firmware/MEDIA_GUIDE.md`, with Simplified Chinese in
-`firmware/MEDIA_GUIDE_ZH.md`. The dated SD ZIP keeps a self-contained
+## Customer Documentation
+
+The dated factory image and SD-card package are documented in the
+[Firmware Delivery Guide](../firmware/README.md). Firmware-specific image, WAV, MP3, and
+MJPEG/PCM AVI commands are documented in the
+[Media Production Guide](../firmware/MEDIA_GUIDE.md). The dated SD ZIP keeps a self-contained
 bilingual snapshot of the media guide and quick-start instructions.
-
-带日期的工厂固件与 SD 卡素材包说明见 `firmware/README_ZH.md`，英文版见
-`firmware/README.md`。图片、WAV、MP3 以及 MJPEG/PCM AVI 的固件专用 FFmpeg
-制作和 ffprobe 校验命令见 `firmware/MEDIA_GUIDE_ZH.md`，英文版见
-`firmware/MEDIA_GUIDE.md`。带日期的 SD ZIP 中保留一份可独立阅读的双语素材指南
-与双语快速说明快照。
 
 This repository contains three separate firmware forms: tagged CI builds, the source-maintained
 Brookesia port, and a factory recovery image.
 
-本仓库包含三种相互独立的固件形式：由标签触发的 CI 构建、通过源码维护的 Brookesia 移植工程，
-以及工厂恢复镜像。
-
-## Release Firmware / 发布固件
+## Release Firmware
 
 GitHub Actions builds source-maintained examples from:
 
 - `examples/esp-idf/`
 - `examples/arduino/`
 
-GitHub Actions 会从以上目录构建由源码维护的示例。
-
 Each release asset is a `*-combined.zip` package. It contains both:
 
 - A single `*-combined.bin` image flashed at offset `0x0`.
 - The original bootloader, partition table, application, and other offset-addressed binaries.
 
-每个发布产物都是一个 `*-combined.zip` 包，其中同时包含：
-
-- 可从偏移地址 `0x0` 一次性烧录的 `*-combined.bin`。
-- 原始 Bootloader、分区表、应用程序以及其他需要按指定偏移地址烧录的二进制文件。
-
 Use `flash_combined.sh` or `flash_combined.bat` for normal installation. Use the split-image scripts
 only when you explicitly need the original flash layout. Both command forms are also recorded as
 text files.
-
-正常安装请使用 `flash_combined.sh` 或 `flash_combined.bat`。只有明确需要原始烧录布局时才使用
-分区镜像脚本；两种烧录方式的命令也会记录在文本文件中。
 
 The package manifest records the source Git SHA, framework version, target, binary offsets, sizes,
 and SHA-256 checksums. `manifest-combined-assets.json` in the GitHub Release provides checksums for
 all published ZIP files.
 
-包内 manifest 会记录源码 Git SHA、框架版本、目标芯片、二进制偏移地址、大小和 SHA-256。
-GitHub Release 中的 `manifest-combined-assets.json` 则记录全部已发布 ZIP 的校验值。
-
-## Brookesia Source Firmware / Brookesia 源码固件
+## Brookesia Source Firmware
 
 `firmware/brookesia/` is an ESP-IDF 5.5 project for the ESP32-S3 hardware. It ports the portable
 application layer from the ESP32-P4 Brookesia firmware while using this board's native display,
-touch, audio, and Wi-Fi paths. Build instructions and the supported application scope are recorded in
-`firmware/brookesia/README.md`.
-
-`firmware/brookesia/` 是面向本 ESP32-S3 硬件的 ESP-IDF 5.5 工程。它移植了 ESP32-P4
-Brookesia 固件的可复用应用层，同时使用本板原生的显示、触摸、音频和 Wi-Fi 通路。构建方法与
-支持的应用范围记录在 `firmware/brookesia/README.md` 中。
+touch, audio, and Wi-Fi paths. Build instructions and the supported application scope are recorded
+in the [Brookesia Source Firmware guide](../firmware/brookesia/README.md).
 
 The source project includes SquareLine, Calculator, DrawPanel, SpecAnalyzer, MusicPlayer, Gallery,
-VideoPlayer, Recorder, Settings, AIChats, Gravitysphere, and Crosshair. Settings and the Phone status
-bar consume live AXP2101 battery data and native Wi-Fi state. Settings also exposes SD-card
-information, a CRC read/write benchmark, diagnostic export, AIChats text-history control, and safe
-eject. The status widgets and application layouts use round-screen safe areas; Gravitysphere
-constrains the QMI8658-driven ball to a true circular boundary, while Crosshair provides a full-screen
-optical alignment target for checking panel rotation and bonding.
-
-源码工程包含 SquareLine、Calculator、DrawPanel、SpecAnalyzer、MusicPlayer、Gallery、
-VideoPlayer、Recorder、Settings、AIChats、Gravitysphere 和 Crosshair。Settings 与 Phone 状态栏
-使用实时 AXP2101 电池数据及原生 Wi-Fi 状态。Settings 还提供 SD 卡信息、CRC 读写基准测试、
-诊断导出、AIChats 文本历史控制和安全弹出。状态组件与应用布局使用圆屏安全区域；
-Gravitysphere 将 QMI8658 驱动的小球限制在真实圆形边界内，Crosshair 则提供全屏光学对准图案，
-用于检查面板旋转和贴合效果。
+VideoPlayer, Recorder, Settings, AIChats, Gravitysphere, Crosshair, and Button Test. Settings and the
+Phone status bar consume live AXP2101 battery data and native Wi-Fi state. Settings also exposes
+SD-card information, a CRC read/write benchmark, diagnostic export, AIChats text-history control,
+and safe eject. The status widgets and application layouts use round-screen safe areas;
+Gravitysphere constrains the QMI8658-driven ball to a true circular boundary, while Crosshair
+provides a full-screen optical alignment target for checking panel rotation and bonding. Button Test
+reads PWR from TCA9554 EXIO4 and BOOT from GPIO0 directly, without using AXP2101 button registers.
 
 This project is source firmware, not a factory image and not part of the example-discovery CI matrix.
 Build and validate it on the target board before treating its output as a recovery image.
 
-该工程是源码固件，不是工厂镜像，也不属于示例发现 CI 矩阵。在把其输出作为恢复镜像之前，必须在
-目标板上完成构建和实机验证。
-
-## Factory Recovery Firmware / 工厂恢复固件
+## Factory Recovery Firmware
 
 `firmware/ESP32-S3-Touch-AMOLED-1.75-FactoryOnly-260805.bin` is the current factory flashing and
 recovery image, generated on 2026-08-05. It is not generated by CI, is not one of the source example
 builds, and is intentionally not repackaged as a release example. The matching customer SD media is
 provided separately as `firmware/SD-Card-Media-260805.zip`.
 
-`firmware/ESP32-S3-Touch-AMOLED-1.75-FactoryOnly-260805.bin` 是当前用于工厂烧录和恢复的镜像，
-生成日期为 2026-08-05。它不是由 CI 生成，也不是源码示例构建产物，并且不会被重新包装为发布
-示例。配套客户 SD 素材另行提供为 `firmware/SD-Card-Media-260805.zip`。
-
 Use it only when restoring the factory demonstration image. For reproducible example firmware, use a
 tagged Release package.
 
-该镜像仅用于恢复工厂演示固件；若需要可复现的示例固件，请使用带标签的 Release 包。
-
-## Flash Layout Safety / 烧录布局安全
+## Flash Layout Safety
 
 The board and source projects use a 16 MiB flash layout. Do not mix bootloaders, partition tables, or
 applications from different packages. A stale 32 MiB image header can produce a flash probe error on
 this board; erase the flash and install a complete v1.0.1 or newer combined package if that specific
 condition occurs.
 
-本板和源码工程使用 16 MiB Flash 布局。不要混用不同软件包中的 Bootloader、分区表或应用程序。
-旧的 32 MiB 镜像头可能在本板上造成 Flash 探测错误；只有确认出现这一特定情况时，才清除 Flash
-并安装完整的 v1.0.1 或更新版合并包。
+## Generated Files
 
-## Generated Files / 生成文件
-
-- CI packaging output / CI 打包输出：`release-artifacts/`
-- Local packaging output / 本地打包输出：`releases/dist/`
-- Downloaded CI artifacts / 下载的 CI 产物：`releases/downloads/`
+- CI packaging output: `release-artifacts/`
+- Local packaging output: `releases/dist/`
+- Downloaded CI artifacts: `releases/downloads/`
 
 These paths, together with ESP-IDF build directories, managed components, generated dependency locks,
 and sdkconfig files, are ignored by Git and must not be committed. Release assets are uploaded to
 GitHub from a successful tag workflow after validation by the release staging script.
-
-上述路径以及 ESP-IDF 构建目录、managed components、自动生成的依赖锁和 sdkconfig 文件均被 Git
-忽略，不应提交。发布产物会在标签工作流成功并通过发布暂存脚本验证后上传到 GitHub。

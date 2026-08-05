@@ -93,13 +93,14 @@ factory image has its own verified command and checksum in the
 
 ## 📱 Brookesia Application Firmware
 
-The source-maintained factory application provides twelve round-screen applications:
+The source-maintained factory application provides thirteen round-screen applications:
 
 - SquareLine, Calculator, DrawPanel, and Crosshair.
 - SpecAnalyzer and Recorder using the ES7210 dual-microphone input.
 - MusicPlayer, Gallery, and VideoPlayer using the microSD card.
 - Settings with live AXP2101 battery information, native Wi-Fi state, storage diagnostics, and safe eject.
 - AIChats with optional text-history storage and Gravitysphere driven by the QMI8658 IMU.
+- Button Test with direct PWR/EXIO4 and BOOT/GPIO0 level diagnostics.
 
 The status bar follows live battery and Wi-Fi state. The media applications, generated fixture
 formats, FFmpeg commands, privacy notes, and SD-card layout are documented in the
@@ -169,22 +170,22 @@ release predates `10_Touch_CST9217` and contains 19 firmware packages. See
 
 ## 📚 Documentation
 
-- [Documentation Index / 文档中心](docs/README.md)
-- [Getting Started](docs/getting-started.md) / [快速开始](docs/getting-started_ZH.md)
-- [Hardware Reference](HARDWARE_REFERENCE.md) / [硬件参考](HARDWARE_REFERENCE_ZH.md)
-- [Example Catalog](docs/examples.md) / [示例目录](docs/examples_ZH.md)
-- [Troubleshooting](docs/troubleshooting.md) / [故障排查](docs/troubleshooting_ZH.md)
-- [Firmware and Factory Recovery / 固件与工厂恢复](docs/firmware.md)
-- [Firmware Delivery Guide](firmware/README.md) / [固件交付说明](firmware/README_ZH.md)
-- [Media Production Guide](firmware/MEDIA_GUIDE.md) / [素材制作指南](firmware/MEDIA_GUIDE_ZH.md)
-- [Brookesia Source Firmware](firmware/brookesia/README.md) / [Brookesia 源码固件](firmware/brookesia/README_ZH.md)
-- [Hardware Validation](firmware/brookesia/HARDWARE_VALIDATION.md) / [硬件验收](firmware/brookesia/HARDWARE_VALIDATION_ZH.md)
-- [Firmware Component Guide](firmware/brookesia/components/README.md) / [固件组件说明](firmware/brookesia/components/README_ZH.md)
-- [Repository Structure](docs/repository-structure.md) / [仓库结构](docs/repository-structure_ZH.md)
-- [Continuous Integration](docs/ci.md) / [持续集成](docs/ci_ZH.md)
-- [Components](docs/components.md) / [组件说明](docs/components_ZH.md)
-- [Release Tools](releases/README.md) / [发布工具](releases/README_ZH.md)
-- [Changelog](CHANGELOG.md) / [变更记录](CHANGELOG_ZH.md)
+- [Documentation Index](docs/README.md)
+- [Getting Started](docs/getting-started.md)
+- [Hardware Reference](HARDWARE_REFERENCE.md)
+- [Example Catalog](docs/examples.md)
+- [Troubleshooting](docs/troubleshooting.md)
+- [Firmware and Factory Recovery](docs/firmware.md)
+- [Firmware Delivery Guide](firmware/README.md)
+- [Media Production Guide](firmware/MEDIA_GUIDE.md)
+- [Brookesia Source Firmware](firmware/brookesia/README.md)
+- [Hardware Validation](firmware/brookesia/HARDWARE_VALIDATION.md)
+- [Firmware Component Guide](firmware/brookesia/components/README.md)
+- [Repository Structure](docs/repository-structure.md)
+- [Continuous Integration](docs/ci.md)
+- [Components](docs/components.md)
+- [Release Tools](releases/README.md)
+- [Changelog](CHANGELOG.md)
 - [Official Product Documentation](https://docs.waveshare.com/ESP32-S3-Touch-AMOLED-1.75)
 - [Official Resources](https://docs.waveshare.com/ESP32-S3-Touch-AMOLED-1.75/Resources-And-Documents)
 - [Official FAQ](https://docs.waveshare.com/ESP32-S3-Touch-AMOLED-1.75/FAQ)

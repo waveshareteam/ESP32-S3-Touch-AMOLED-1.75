@@ -86,7 +86,24 @@ watchdog, white screen, or incomplete refresh. Confirm the P4-style loading
 screen advances through its initialization stages, reaches `Ready`, and fades
 cleanly to the full 466 x 466 Brookesia screen.
 
-## 3. Storage and Settings
+## 3. Button Test
+
+1. Open **Button Test** with both keys released. Confirm PWR reports `RAW LOW`
+   and BOOT reports `RAW HIGH`; both cards must show `RELEASED` and `WAITING`.
+2. Briefly tap PWR without holding it. Confirm only the PWR card changes to
+   `RAW HIGH` and `PRESSED`, then returns to `RAW LOW` and `RELEASED` after the
+   key is released. `PASS LATCHED` must remain visible.
+3. Press BOOT. Confirm only the BOOT card changes to `RAW LOW` and `PRESSED`,
+   then returns to `RAW HIGH` and `RELEASED` after release. Its `PASS LATCHED`
+   result must remain visible.
+4. Confirm the footer changes to `ALL BUTTONS PASSED`. The test must not read an
+   AXP2101 button register; PWR is sampled from TCA9554 EXIO4 and BOOT directly
+   from GPIO0.
+5. Leave and reopen Button Test five times. The launcher must remain responsive,
+   each new session must clear both latched results, and no worker task or LVGL
+   timer may access a closed application screen.
+
+## 4. Storage and Settings
 
 1. Open **Settings > Storage**.
 2. Confirm card name, capacity, free space, 1-bit SDMMC bus, and clock are
@@ -98,7 +115,7 @@ cleanly to the full 466 x 466 Brookesia screen.
 5. Enable AI chat history, close Settings, reopen it, and confirm the setting
    persisted.
 
-## 4. Music and shared audio ownership
+## 5. Music and shared audio ownership
 
 1. Open **MusicPlayer** and confirm all six stereo WAV tracks are indexed.
 2. Confirm previous, play/pause, and next buttons are visible and responsive on
@@ -111,7 +128,7 @@ cleanly to the full 466 x 466 Brookesia screen.
    and AIChats. Each app must either acquire audio or report it busy; none may
    reboot or steal the ES8311/ES7210 session from another owner.
 
-## 5. Gallery
+## 6. Gallery
 
 1. Open **Gallery** and confirm both baseline JPEG fixtures are indexed.
 2. Exercise previous, next, and slideshow controls.
@@ -121,7 +138,7 @@ cleanly to the full 466 x 466 Brookesia screen.
 5. Temporarily rename `/photos`, reopen Gallery, and confirm the error page does
    not keep the SD lease busy; Settings safe eject must still succeed.
 
-## 6. Recorder
+## 7. Recorder
 
 1. Record at least ten seconds while speaking near each microphone in turn.
 2. Stop normally and confirm a WAV file appears under
@@ -131,7 +148,7 @@ cleanly to the full 466 x 466 Brookesia screen.
 4. Repeat start/stop five times and close the app during an active recording.
    The output must remain a readable WAV rather than a zero-length file.
 
-## 7. VideoPlayer
+## 8. VideoPlayer
 
 1. Play `01-mjpeg-320x240-10fps-pcm24k.avi`.
 2. Confirm the moving white square advances smoothly at the intentional 10 fps
@@ -140,7 +157,7 @@ cleanly to the full 466 x 466 Brookesia screen.
 4. Repeat immediate enter/back ten times. No AVI callback may touch a released
    canvas, frame buffer, file, codec, or SD lease.
 
-## 8. Safe eject, reinsertion, and history
+## 9. Safe eject, reinsertion, and history
 
 1. While MusicPlayer or VideoPlayer owns an open file, **Safe eject** must
    report busy and leave the card mounted.
@@ -157,7 +174,7 @@ If Recorder ever reports a save failure after capturing audio, inspect the
 corresponding `.wav.partial` file on a PC. Its header is checkpointed every five
 seconds so an interrupted recording is not published as a successful `.wav`.
 
-## 9. Final soak gate
+## 10. Final soak gate
 
 Cycle through all launcher applications at least twenty times while monitoring
 serial output. The release passes only with no panic, watchdog, stack overflow,

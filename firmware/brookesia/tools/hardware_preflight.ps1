@@ -12,7 +12,7 @@ param(
 
     [ValidatePattern('^[0-9A-Fa-f]{64}$')]
     [string]$ExpectedFirmwareSha256 =
-        '0876f10a6f2a693d83d51c417e44131ed2c81b952c78d6cd794b03bfa3e218d2',
+        '2b7e01ff1f37027385a3820e006f945464cfcee2a05954b3239cf75f250080b6',
 
     [ValidatePattern('^[0-9A-Fa-f]{64}$')]
     [string]$ExpectedMediaZipSha256 =

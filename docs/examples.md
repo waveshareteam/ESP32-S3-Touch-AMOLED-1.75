@@ -50,6 +50,7 @@ single-example CI target. Its launcher contains:
 | Application | Main capability | Hardware / data path |
 | --- | --- | --- |
 | SquareLine | Demonstrates the reusable SquareLine/LVGL interface. | AMOLED display and touch. |
+| Button Test | Shows live key state, raw level, and a latched pass result for both physical buttons. | PWR through TCA9554 EXIO4; BOOT through GPIO0; no AXP2101 register read. |
 | Calculator | Provides a touch calculator. | AMOLED display and touch. |
 | DrawPanel | Provides a white drawing canvas and touch drawing tools. | AMOLED display and touch. |
 | SpecAnalyzer | Displays a live audio spectrum. | Two onboard microphones through ES7210. |

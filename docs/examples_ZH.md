@@ -47,6 +47,7 @@ v1.0.1 包含的 14 个自有演示已针对该版本完成硬件测试。当前
 | 应用 | 主要功能 | 硬件 / 数据通路 |
 | --- | --- | --- |
 | SquareLine | 演示可复用的 SquareLine/LVGL 界面。 | AMOLED 显示屏和触摸。 |
+| Button Test | 显示两个物理按键的实时状态、原始电平和锁存通过结果。 | PWR 通过 TCA9554 EXIO4；BOOT 通过 GPIO0；不读取 AXP2101 寄存器。 |
 | Calculator | 提供触摸计算器。 | AMOLED 显示屏和触摸。 |
 | DrawPanel | 提供白色绘图画布和触摸绘图工具。 | AMOLED 显示屏和触摸。 |
 | SpecAnalyzer | 显示实时音频频谱。 | 通过 ES7210 连接的两个板载麦克风。 |

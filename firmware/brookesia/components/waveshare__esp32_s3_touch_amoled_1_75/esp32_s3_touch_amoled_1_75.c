@@ -99,7 +99,7 @@ static const co5300_lcd_init_cmd_t lcd_init_cmds[] = {
  * I2C Function
  *
  **************************************************************************************************/
-esp_err_t bsp_i2c_init(void)
+static esp_err_t bsp_i2c_try_init(void)
 {
     /* I2C was initialized before */
     if (i2c_initialized)
@@ -113,11 +113,22 @@ esp_err_t bsp_i2c_init(void)
         .scl_io_num = BSP_I2C_SCL,
         .i2c_port = BSP_I2C_NUM,
     };
-    BSP_ERROR_CHECK_RETURN_ERR(i2c_new_master_bus(&i2c_bus_conf, &i2c_handle));
+    esp_err_t ret = i2c_new_master_bus(&i2c_bus_conf, &i2c_handle);
+    if (ret != ESP_OK)
+    {
+        return ret;
+    }
 
     i2c_initialized = true;
 
     return ESP_OK;
+}
+
+esp_err_t bsp_i2c_init(void)
+{
+    esp_err_t ret = bsp_i2c_try_init();
+    BSP_ERROR_CHECK_RETURN_ERR(ret);
+    return ret;
 }
 
 esp_err_t bsp_i2c_deinit(void)
@@ -734,14 +745,38 @@ esp_err_t bsp_touch_new(const bsp_display_cfg_t *cfg, esp_lcd_touch_handle_t *re
  * IO Expander Function
  *
  **************************************************************************************************/
-esp_io_expander_handle_t bsp_io_expander_init(void)
+esp_err_t bsp_io_expander_try_init(esp_io_expander_handle_t *ret_expander)
 {
-    BSP_ERROR_CHECK_RETURN_ERR(bsp_i2c_init());
+    if (ret_expander == NULL)
+    {
+        return ESP_ERR_INVALID_ARG;
+    }
+    *ret_expander = NULL;
+
+    esp_err_t ret = bsp_i2c_try_init();
+    if (ret != ESP_OK)
+    {
+        return ret;
+    }
+
     if (!io_expander)
     {
-        BSP_ERROR_CHECK_RETURN_NULL(esp_io_expander_new_i2c_tca9554(i2c_handle, BSP_IO_EXPANDER_I2C_ADDRESS, &io_expander));
+        ret = esp_io_expander_new_i2c_tca9554(i2c_handle, BSP_IO_EXPANDER_I2C_ADDRESS, &io_expander);
+        if (ret != ESP_OK)
+        {
+            return ret;
+        }
     }
-    return io_expander;
+
+    *ret_expander = io_expander;
+    return ESP_OK;
+}
+
+esp_io_expander_handle_t bsp_io_expander_init(void)
+{
+    esp_io_expander_handle_t expander = NULL;
+    BSP_ERROR_CHECK_RETURN_NULL(bsp_io_expander_try_init(&expander));
+    return expander;
 }
 
 static lv_display_t *bsp_display_lcd_init(const bsp_display_cfg_t *cfg)
