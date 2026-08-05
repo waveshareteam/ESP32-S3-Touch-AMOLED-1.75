@@ -1,10 +1,15 @@
 # Repository Structure
 
+[简体中文](repository-structure_ZH.md)
+
 The repository uses stable framework roots so examples, CI, documentation, and releases can be
 discovered consistently.
 
 ## Canonical Paths
 
+- `README.md` and `README_ZH.md`: equivalent English and Simplified Chinese repository guides.
+- `HARDWARE_REFERENCE.md` and `HARDWARE_REFERENCE_ZH.md`: bilingual board-level hardware reference.
+- `assets/`: official product imagery used by the documentation.
 - `examples/esp-idf/`: five first-party ESP-IDF projects.
 - `examples/arduino/`: ten first-party Arduino sketches.
 - `examples/arduino/libraries/`: bundled dependencies used by those sketches.

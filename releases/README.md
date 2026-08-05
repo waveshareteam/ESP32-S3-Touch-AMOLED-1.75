@@ -1,5 +1,7 @@
 # Release Scripts
 
+[中文](README_ZH.md)
+
 The scripts in this directory package CI build outputs, download workflow artifacts, validate
 combined firmware, and stage GitHub Release assets.
 

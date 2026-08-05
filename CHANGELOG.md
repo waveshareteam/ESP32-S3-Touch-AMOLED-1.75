@@ -1,5 +1,7 @@
 # Changelog
 
+[简体中文](CHANGELOG_ZH.md)
+
 All notable repository and firmware changes are documented here.
 
 ## [Unreleased]
@@ -8,6 +10,9 @@ All notable repository and firmware changes are documented here.
 
 - Board-specific CST9217 raw single- and two-point touch diagnostic under
   `examples/arduino/10_Touch_CST9217/`.
+- Equivalent English and Simplified Chinese repository guides, board-level hardware references,
+  user and maintainer documentation, release notes, and public collaboration guidance.
+- An official Waveshare product image with source and checksum provenance for the repository landing pages.
 
 ## [1.0.1] - 2026-07-13
 

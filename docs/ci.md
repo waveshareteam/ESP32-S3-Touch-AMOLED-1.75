@@ -1,5 +1,7 @@
 # Continuous Integration
 
+[简体中文](ci_ZH.md)
+
 The `Build Examples` workflow discovers, builds, and packages every first-party example. Firmware
 published in GitHub Releases comes from this workflow; release firmware is not compiled manually.
 
