@@ -26,7 +26,7 @@
 - Flash 容量：16 MiB
 - 烧录地址：`0x0`
 - 文件大小：16,777,216 字节
-- SHA-256：`4c9b353e59d0c86bfe28bdbb385ff60f82e9df8c022a807169a0dd5d0169dffb`
+- SHA-256：`0876f10a6f2a693d83d51c417e44131ed2c81b952c78d6cd794b03bfa3e218d2`
 
 该文件已经合并 Bootloader、分区表、初始 OTA 数据、ESP-SR 模型、Brookesia 主程序和 SPIFFS 文件系统。它是完整镜像，不要再与其他构建生成的分区文件混合烧录。
 
@@ -69,10 +69,10 @@ SD card root
 也可以在仓库根目录使用安全复制脚本。脚本不会格式化 SD 卡，也不会在未指定 `-Overwrite` 时覆盖同名文件：
 
 ```powershell
-powershell -ExecutionPolicy Bypass -File .\firmware\brookesia\tools\prepare_sd_card.ps1 -Drive E:
+powershell -ExecutionPolicy Bypass -File .\firmware\brookesia\tools\prepare_sd_card.ps1 -Drive X:
 ```
 
-请务必先确认 `E:` 确实是 SD 卡盘符。卡在电脑读卡器中时，复制结束后通过 Windows 的“弹出”功能安全移除；卡仍插在设备中时，应先退出媒体应用，再在 `Settings > Storage > Safe eject` 中卸载，然后才能物理拔卡。图片、音乐和 AVI 视频的具体格式与 FFmpeg 命令见 [`MEDIA_GUIDE.md`](MEDIA_GUIDE.md)。
+请先把示例中的 `X:` 替换为实际的 SD 卡盘符，并确认目标盘确实是 SD 卡。卡在电脑读卡器中时，复制结束后通过 Windows 的“弹出”功能安全移除；卡仍插在设备中时，应先退出媒体应用，再在 `Settings > Storage > Safe eject` 中卸载，然后才能物理拔卡。图片、音乐和 AVI 视频的具体格式与 FFmpeg 命令见 [`MEDIA_GUIDE.md`](MEDIA_GUIDE.md)。
 
 隐私提示：`Waveshare/AIChats` 中的 JSONL 历史可能包含真实对话文本。共享、返修或重新交付 SD 卡前，请关闭 AIChats 历史记录，并备份或删除这些文件。`Waveshare/Diagnostics` 中也可能含有设备、复位、存储、电池和 Wi-Fi 状态信息，应审核后再对外分享。
 
@@ -84,7 +84,7 @@ powershell -ExecutionPolicy Bypass -File .\firmware\brookesia\tools\prepare_sd_c
 powershell -ExecutionPolicy Bypass -File .\firmware\brookesia\tools\hardware_preflight.ps1 -Offline
 ```
 
-激活 ESP-IDF v5.5.4 并连接设备后，去掉 `-Offline` 还会检查默认的 `COM24`、`idf.py` 和 esptool；其他端口可通过 `-Port COMx` 指定。完整实机验收步骤见 [`brookesia/HARDWARE_VALIDATION.md`](brookesia/HARDWARE_VALIDATION.md)。
+激活 ESP-IDF v5.5.4 并连接设备后，去掉 `-Offline` 并通过 `-Port COMx` 指定实际串口，即可同时检查串口、`idf.py` 和 esptool。完整实机验收步骤见 [`brookesia/HARDWARE_VALIDATION.md`](brookesia/HARDWARE_VALIDATION.md)。
 
 ### 源码说明
 
@@ -112,7 +112,7 @@ This directory contains the complete customer factory image, an SD-card validati
 - Flash size: 16 MiB
 - Flash offset: `0x0`
 - File size: 16,777,216 bytes
-- SHA-256: `4c9b353e59d0c86bfe28bdbb385ff60f82e9df8c022a807169a0dd5d0169dffb`
+- SHA-256: `0876f10a6f2a693d83d51c417e44131ed2c81b952c78d6cd794b03bfa3e218d2`
 
 The image already combines the bootloader, partition table, initial OTA data, ESP-SR models, Brookesia application, and SPIFFS filesystem. It is a complete image; do not mix it with offset binaries from another build.
 
@@ -155,10 +155,10 @@ SD card root
 The safe copy helper can also be run from the repository root. It does not format the card and does not replace existing files unless `-Overwrite` is supplied:
 
 ```powershell
-powershell -ExecutionPolicy Bypass -File .\firmware\brookesia\tools\prepare_sd_card.ps1 -Drive E:
+powershell -ExecutionPolicy Bypass -File .\firmware\brookesia\tools\prepare_sd_card.ps1 -Drive X:
 ```
 
-Confirm that `E:` is the SD card before running the command. When the card is in a PC reader, eject it through Windows after copying. When it is still installed in the device, leave all media applications, choose `Settings > Storage > Safe eject`, wait for unmount confirmation, and only then remove it physically. See [`MEDIA_GUIDE.md`](MEDIA_GUIDE.md) for the exact image, music, and AVI requirements and the recommended FFmpeg recipes.
+Replace `X:` with the actual SD-card drive and confirm the target really is the SD card before running the command. When the card is in a PC reader, eject it through Windows after copying. When it is still installed in the device, leave all media applications, choose `Settings > Storage > Safe eject`, wait for unmount confirmation, and only then remove it physically. See [`MEDIA_GUIDE.md`](MEDIA_GUIDE.md) for the exact image, music, and AVI requirements and the recommended FFmpeg recipes.
 
 Privacy notice: JSONL history under `Waveshare/AIChats` may contain real conversation text. Before sharing, servicing, or redelivering an SD card, disable AIChats history and back up or delete those files. Files under `Waveshare/Diagnostics` may also contain device, reset, storage, battery, and Wi-Fi state and should be reviewed before external sharing.
 
@@ -170,7 +170,7 @@ Verify the complete firmware, SD ZIP, and all nine packaged media fixtures offli
 powershell -ExecutionPolicy Bypass -File .\firmware\brookesia\tools\hardware_preflight.ps1 -Offline
 ```
 
-After activating ESP-IDF v5.5.4 and connecting the board, omit `-Offline` to also check the default `COM24`, `idf.py`, and esptool. Use `-Port COMx` for another port. The complete device acceptance procedure is in [`brookesia/HARDWARE_VALIDATION.md`](brookesia/HARDWARE_VALIDATION.md).
+After activating ESP-IDF v5.5.4 and connecting the board, omit `-Offline` and provide the actual serial port with `-Port COMx` to check the port, `idf.py`, and esptool together. The complete device acceptance procedure is in [`brookesia/HARDWARE_VALIDATION.md`](brookesia/HARDWARE_VALIDATION.md).
 
 ### Source project
 

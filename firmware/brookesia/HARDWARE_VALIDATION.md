@@ -28,8 +28,9 @@ Insert the SD card into a Windows reader and copy the fixture tree without
 formatting or deleting existing files:
 
 ```powershell
-& .\firmware\brookesia\tools\prepare_sd_card.ps1 -Drive E:
-& .\firmware\brookesia\tools\hardware_preflight.ps1 -Offline -SdDrive E:
+$sdDrive = 'X:' # Replace with the SD-card drive.
+& .\firmware\brookesia\tools\prepare_sd_card.ps1 -Drive $sdDrive
+& .\firmware\brookesia\tools\hardware_preflight.ps1 -Offline -SdDrive $sdDrive
 ```
 
 The script refuses the Windows system drive and, by default, any drive not
@@ -64,19 +65,18 @@ Activate the configured ESP-IDF v5.5.4 environment, connect the board, and run
 the full preflight before flashing:
 
 ```powershell
-& .\firmware\brookesia\tools\hardware_preflight.ps1 -Port COM24
-```
-
-```powershell
-python -m esptool --chip esp32s3 --port COM24 --baud 460800 --before default_reset --after hard_reset write_flash --flash_mode dio --flash_size 16MB --flash_freq 80m 0x0 firmware\ESP32-S3-Touch-AMOLED-1.75-FactoryOnly-260805.bin
+$port = 'COMx' # Replace with the board's serial port.
+& .\firmware\brookesia\tools\hardware_preflight.ps1 -Port $port
+python -m esptool --chip esp32s3 --port $port --baud 460800 --before default_reset --after hard_reset write_flash --flash_mode dio --flash_size 16MB --flash_freq 80m 0x0 firmware\ESP32-S3-Touch-AMOLED-1.75-FactoryOnly-260805.bin
 ```
 
 After flashing, start an ESP-IDF monitor from the configured v5.5.4
 environment:
 
 ```powershell
+$port = 'COMx' # Replace with the board's serial port.
 $brookesiaBuildDir = Join-Path $env:TEMP "esp32-s3-touch-amoled-1-75-build-v5.5.4"
-idf.py -C firmware\brookesia -B $brookesiaBuildDir -p COM24 monitor
+idf.py -C firmware\brookesia -B $brookesiaBuildDir -p $port monitor
 ```
 
 The first boot must reach the launcher without a panic, stack overflow,
