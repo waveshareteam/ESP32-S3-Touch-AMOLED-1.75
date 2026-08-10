@@ -28,7 +28,17 @@
       "english": "README.md",
       "chinese": "README_ZH.md",
       "profile": "single-product",
-      "required_components": [],
+      "required_components": [
+        "centered_header",
+        "html_h1",
+        "subtitle",
+        "badges",
+        "language_switch",
+        "quick_links",
+        "hero_image",
+        "separator",
+        "h2"
+      ],
       "required_quick_links": ["product", "documentation", "firmware", "quick_start", "esp_idf", "arduino"],
       "required_badges": ["build", "release", "license"],
       "required_h2_icons": ["✨", "🖥️", "📦", "📱", "🧪", "🛠️", "🗂️", "📚", "🤝", "📄"],
