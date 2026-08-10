@@ -47,6 +47,19 @@ class DiscoverExamplesTests(unittest.TestCase):
         with self.assertRaises(SystemExit):
             discover_examples.select_routed_items(items, ["missing"], "project", True)
 
+    def test_routed_arduino_sketch_path_selects_its_directory_once(self) -> None:
+        item = {
+            "name": "SketchA",
+            "path": "examples/arduino/SketchA",
+            "sketch": "examples/arduino/SketchA/SketchA.ino",
+        }
+        self.assertEqual(
+            [item],
+            discover_examples.select_routed_items([item], [item["sketch"]], "Arduino sketch", False),
+        )
+        with self.assertRaises(SystemExit):
+            discover_examples.select_routed_items([item], ["examples/arduino/unknown.ino"], "Arduino sketch", True)
+
     def test_cli_writes_compact_github_outputs(self) -> None:
         with tempfile.TemporaryDirectory() as temporary:
             output = Path(temporary) / "output.txt"

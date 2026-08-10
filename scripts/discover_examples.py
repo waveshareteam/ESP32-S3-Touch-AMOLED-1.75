@@ -116,11 +116,20 @@ def select_routed_items(
 ) -> list[dict[str, str]]:
     if selectors is None:
         return items
-    known = {item["path"] for item in items}
+    known = {
+        candidate
+        for item in items
+        for candidate in (item["path"], item.get("sketch"))
+        if candidate
+    }
     unknown = sorted(set(selectors) - known)
     if unknown:
         raise SystemExit(f"Unknown routed {kind} path(s): {', '.join(unknown)}")
-    selected = [item for item in items if item["path"] in selectors]
+    selected = [
+        item
+        for item in items
+        if item["path"] in selectors or item.get("sketch") in selectors
+    ]
     if not selected and not allow_empty:
         raise SystemExit(f"Routed {kind} selection is empty; pass --allow-empty only for a verified no-build route")
     return selected
