@@ -12,4 +12,4 @@ English and Chinese repository landing pages.
 - SHA-256: `8d53a85e90668df731432c38a7def24975a3afc995e60c8080b527effc89332a`
 
 Use official product material or a real-device photograph for product documentation. Do not replace
-this image with AI-generated hardware imagery or a photograph of a different model.
+this image with synthetic hardware imagery or a photograph of a different model.
