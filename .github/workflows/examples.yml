@@ -2,26 +2,9 @@ name: Build Examples
 
 on:
   push:
-    branches:
-      - main
-      - master
-    tags:
-      - "v*"
-    paths:
-      - ".github/workflows/examples.yml"
-      - "scripts/discover_examples.py"
-      - "releases/**"
-      - "config/**"
-      - "examples/esp-idf/**"
-      - "examples/arduino/**"
+    branches: [main, master]
+    tags: ["v*"]
   pull_request:
-    paths:
-      - ".github/workflows/examples.yml"
-      - "scripts/discover_examples.py"
-      - "releases/**"
-      - "config/**"
-      - "examples/esp-idf/**"
-      - "examples/arduino/**"
   workflow_dispatch:
     inputs:
       target:
@@ -29,11 +12,82 @@ on:
         required: false
         default: "all"
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' || github.ref_type == 'branch' }}
+
 permissions:
   contents: read
 
 jobs:
+  quality:
+    name: Quality and routing
+    runs-on: ubuntu-latest
+    outputs:
+      idf-selectors: ${{ steps.route.outputs.idf-selectors }}
+      arduino-selectors: ${{ steps.route.outputs.arduino-selectors }}
+      idf-count: ${{ steps.route.outputs.idf-count }}
+      arduino-count: ${{ steps.route.outputs.arduino-count }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Run repository-local unit tests
+        run: python3 -m unittest discover -s tests -p "test_*.py"
+      - name: Audit all first-party Markdown
+        run: python3 scripts/audit_markdown.py . --all --strict --config config/markdown-audit.json
+      - id: route
+        name: Classify the complete change scope
+        shell: bash
+        run: |
+          changed="$RUNNER_TEMP/changed-files.txt"
+          if [[ "${{ github.event_name }}" == "pull_request" ]]; then
+            git diff --name-status --find-renames "${{ github.event.pull_request.base.sha }}" "${{ github.sha }}" > "$changed"
+          elif [[ "${{ github.event_name }}" == "push" && "${{ github.event.before }}" != "0000000000000000000000000000000000000000" ]]; then
+            git diff --name-status --find-renames "${{ github.event.before }}" "${{ github.sha }}" > "$changed"
+          else
+            printf 'M\t.github/workflows/examples.yml\n' > "$changed"
+          fi
+          python3 scripts/audit_ci_routing.py . \
+            --changed-files-from "$changed" \
+            --routing-config config/ci-routing.json \
+            --ownership-config config/markdown-audit.json \
+            --strict-unknown \
+            --format json > "$RUNNER_TEMP/routing.json"
+          if [[ "${{ github.event_name }}" == "workflow_dispatch" && "${{ github.event.inputs.target }}" != "all" ]]; then
+            python3 - "${{ github.event.inputs.target }}" "$RUNNER_TEMP/routing.json" <<'PY'
+          import json
+          import sys
+          selector = sys.argv[1].replace("\\", "/").strip("/")
+          report = json.load(open(sys.argv[2], encoding="utf-8"))
+          idf_projects = set(report["esp_idf"]["available"])
+          arduino_sketches = set(report["arduino"]["available"])
+          arduino_directories = {path.rsplit("/", 1)[0] for path in arduino_sketches}
+          selector_names = {
+              path.rstrip("/").split("/")[-1]
+              for path in idf_projects | arduino_directories
+          }
+          if selector not in idf_projects | arduino_sketches | arduino_directories | selector_names:
+              raise SystemExit(f"Unknown workflow_dispatch selector: {sys.argv[1]}")
+          PY
+          fi
+          python3 - "$RUNNER_TEMP/routing.json" "$GITHUB_OUTPUT" <<'PY'
+          import json
+          import sys
+          report = json.load(open(sys.argv[1], encoding="utf-8"))
+          values = {
+              "idf-selectors": json.dumps(report["esp_idf"]["selected"], separators=(",", ":")),
+              "arduino-selectors": json.dumps(report["arduino"]["selected"], separators=(",", ":")),
+              "idf-count": str(len(report["esp_idf"]["selected"])),
+              "arduino-count": str(len(report["arduino"]["selected"])),
+          }
+          with open(sys.argv[2], "a", encoding="utf-8") as output:
+              for key, value in values.items():
+                  output.write(f"{key}={value}\n")
+          PY
+
   discover-esp-idf:
+    needs: quality
     runs-on: ubuntu-latest
     outputs:
       matrix: ${{ steps.discover.outputs.matrix }}
@@ -45,6 +99,8 @@ jobs:
           python3 scripts/discover_examples.py \
             --surface esp-idf \
             --selector "${{ github.event.inputs.target || 'all' }}" \
+            --selectors-json '${{ needs.quality.outputs.idf-selectors }}' \
+            --allow-empty \
             --idf-versions v5.5.4,v6.0.2 \
             --github-output "$GITHUB_OUTPUT"
 
@@ -71,23 +127,15 @@ jobs:
       - name: Package firmware
         shell: bash
         run: |
-          python3 releases/package_firmware.py \
-            --framework esp-idf \
-            --project "${{ matrix.path }}" \
-            --build-dir "build/${{ matrix.name }}-${{ matrix.idf }}" \
-            --name "ESP32-S3-Touch-AMOLED-1.75-${{ matrix.name }}-${{ matrix.idf }}" \
-            --framework-version "${{ matrix.idf }}" \
-            --target "${{ matrix.target }}" \
-            --git-sha "${{ github.sha }}" \
-            --output-dir release-artifacts
-      - name: Upload firmware artifact
-        uses: actions/upload-artifact@v4
+          python3 releases/package_firmware.py --framework esp-idf --project "${{ matrix.path }}" --build-dir "build/${{ matrix.name }}-${{ matrix.idf }}" --name "ESP32-S3-Touch-AMOLED-1.75-${{ matrix.name }}-${{ matrix.idf }}" --framework-version "${{ matrix.idf }}" --target "${{ matrix.target }}" --git-sha "${{ github.sha }}" --output-dir release-artifacts
+      - uses: actions/upload-artifact@v4
         with:
           name: firmware-esp-idf-${{ matrix.name }}-${{ matrix.idf }}
           path: release-artifacts/*.zip
           if-no-files-found: error
 
   discover-arduino:
+    needs: quality
     runs-on: ubuntu-latest
     outputs:
       matrix: ${{ steps.discover.outputs.matrix }}
@@ -99,6 +147,8 @@ jobs:
           python3 scripts/discover_examples.py \
             --surface arduino \
             --selector "${{ github.event.inputs.target || 'all' }}" \
+            --selectors-json '${{ needs.quality.outputs.arduino-selectors }}' \
+            --allow-empty \
             --arduino-core 3.3.10 \
             --fqbn "esp32:esp32:esp32s3:FlashSize=16M,PartitionScheme=app3M_fat9M_16MB" \
             --github-output "$GITHUB_OUTPUT"
@@ -121,25 +171,11 @@ jobs:
           arduino-cli core install esp32:esp32@${{ matrix.core }}
       - name: Compile ${{ matrix.path }}
         run: |
-          arduino-cli compile \
-            --fqbn "${{ matrix.fqbn }}" \
-            --libraries examples/arduino/libraries \
-            --export-binaries \
-            --output-dir "build/${{ matrix.name }}-${{ matrix.core }}" \
-            "${{ matrix.path }}"
+          arduino-cli compile --fqbn "${{ matrix.fqbn }}" --libraries examples/arduino/libraries --export-binaries --output-dir "build/${{ matrix.name }}-${{ matrix.core }}" "${{ matrix.path }}"
       - name: Package firmware
         run: |
-          python3 releases/package_firmware.py \
-            --framework arduino \
-            --project "${{ matrix.path }}" \
-            --build-dir "build/${{ matrix.name }}-${{ matrix.core }}" \
-            --name "ESP32-S3-Touch-AMOLED-1.75-${{ matrix.name }}-arduino-${{ matrix.core }}" \
-            --framework-version "${{ matrix.core }}" \
-            --target esp32s3 \
-            --git-sha "${{ github.sha }}" \
-            --output-dir release-artifacts
-      - name: Upload firmware artifact
-        uses: actions/upload-artifact@v4
+          python3 releases/package_firmware.py --framework arduino --project "${{ matrix.path }}" --build-dir "build/${{ matrix.name }}-${{ matrix.core }}" --name "ESP32-S3-Touch-AMOLED-1.75-${{ matrix.name }}-arduino-${{ matrix.core }}" --framework-version "${{ matrix.core }}" --target esp32s3 --git-sha "${{ github.sha }}" --output-dir release-artifacts
+      - uses: actions/upload-artifact@v4
         with:
           name: firmware-arduino-${{ matrix.name }}-${{ matrix.core }}
           path: release-artifacts/*.zip

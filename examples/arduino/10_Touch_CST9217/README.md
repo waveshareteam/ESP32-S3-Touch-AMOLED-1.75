@@ -1,5 +1,7 @@
 # CST9217 Touch Diagnostic
 
+> [简体中文](README_ZH.md)
+
 This Arduino example reports raw CST9217 touch coordinates over the serial monitor without starting
 the AMOLED display or LVGL. It isolates the touch controller, I2C bus, reset pin, and interrupt line
 from the rest of the graphics stack.

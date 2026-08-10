@@ -1,5 +1,7 @@
 # Immersive Block
 
+> [简体中文](README_ZH.md)
+
 This ESP-IDF example renders a motion-controlled falling-block scene on the
 ESP32-S3-Touch-AMOLED-1.75.
 
