@@ -72,7 +72,9 @@ def discover_arduino_sketches() -> list[dict[str, str]]:
     return sketches
 
 
-def select_items(items: list[dict[str, str]], selector: str, kind: str) -> list[dict[str, str]]:
+def select_items(
+    items: list[dict[str, str]], selector: str, kind: str, allow_empty: bool = False
+) -> list[dict[str, str]]:
     selector = (selector or "all").strip()
     if selector == "all":
         return items
@@ -81,13 +83,47 @@ def select_items(items: list[dict[str, str]], selector: str, kind: str) -> list[
     selected = [
         item
         for item in items
-        if normalized in {item["name"], item["path"], item["path"].rstrip("/").split("/")[-1]}
+        if normalized in {
+            item["name"],
+            item["path"],
+            item["path"].rstrip("/").split("/")[-1],
+            item.get("sketch", ""),
+        }
     ]
     if selected:
         return selected
+    if allow_empty:
+        return []
 
     valid = ", ".join(item["name"] for item in items) or "<none>"
     raise SystemExit(f"Unknown {kind} selector '{selector}'. Valid names: {valid}")
+
+
+def selectors_from_json(value: str | None, kind: str) -> list[str] | None:
+    if value is None:
+        return None
+    try:
+        selectors = json.loads(value)
+    except json.JSONDecodeError as exc:
+        raise SystemExit(f"Invalid {kind} selectors JSON: {exc.msg}") from exc
+    if not isinstance(selectors, list) or not all(isinstance(item, str) for item in selectors):
+        raise SystemExit(f"{kind} selectors JSON must be an array of strings")
+    return selectors
+
+
+def select_routed_items(
+    items: list[dict[str, str]], selectors: list[str] | None, kind: str, allow_empty: bool
+) -> list[dict[str, str]]:
+    if selectors is None:
+        return items
+    known = {item["path"] for item in items}
+    unknown = sorted(set(selectors) - known)
+    if unknown:
+        raise SystemExit(f"Unknown routed {kind} path(s): {', '.join(unknown)}")
+    selected = [item for item in items if item["path"] in selectors]
+    if not selected and not allow_empty:
+        raise SystemExit(f"Routed {kind} selection is empty; pass --allow-empty only for a verified no-build route")
+    return selected
 
 
 def expand_idf_matrix(items: list[dict[str, str]], idf_versions: str) -> list[dict[str, str]]:
@@ -119,6 +155,8 @@ def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--surface", choices=("esp-idf", "arduino"), required=True)
     parser.add_argument("--selector", default="all")
+    parser.add_argument("--selectors-json", help="compact JSON array of routed repository-relative paths")
+    parser.add_argument("--allow-empty", action="store_true", help="permit a verified no-build routed selection")
     parser.add_argument("--idf-versions", default="v5.5.4,v6.0.2")
     parser.add_argument("--arduino-core", default="3.3.10")
     parser.add_argument(
@@ -129,10 +167,18 @@ def main() -> int:
     args = parser.parse_args()
 
     if args.surface == "esp-idf":
-        items = select_items(discover_idf_projects(), args.selector, "ESP-IDF project")
+        items = select_routed_items(
+            discover_idf_projects(), selectors_from_json(args.selectors_json, "ESP-IDF project"),
+            "ESP-IDF project", args.allow_empty,
+        )
+        items = select_items(items, args.selector, "ESP-IDF project", args.allow_empty)
         matrix = expand_idf_matrix(items, args.idf_versions)
     else:
-        items = select_items(discover_arduino_sketches(), args.selector, "Arduino sketch")
+        items = select_routed_items(
+            discover_arduino_sketches(), selectors_from_json(args.selectors_json, "Arduino sketch"),
+            "Arduino sketch", args.allow_empty,
+        )
+        items = select_items(items, args.selector, "Arduino sketch", args.allow_empty)
         matrix = expand_arduino_matrix(items, args.arduino_core, args.fqbn)
 
     write_outputs(matrix, args.github_output)

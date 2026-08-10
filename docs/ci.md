@@ -2,8 +2,21 @@
 
 [简体中文](ci_ZH.md)
 
-The `Build Examples` workflow discovers, builds, and packages every first-party example. Firmware
+The `Build Examples` workflow runs an always-visible quality and routing gate, then discovers, builds,
+and packages the first-party examples selected by the complete changed-file classification. Firmware
 published in GitHub Releases comes from this workflow; release firmware is not compiled manually.
+
+## Quality And Routing Gate
+
+Every pull request runs repository-local unit tests, a strict full Markdown audit, and a rename-aware
+changed-file classifier. The checkout includes complete history so the classifier can fail closed when
+the diff is empty or unavailable. Root, example, sketch, and bundled-library Markdown select zero
+example builds; direct example source selects only its project or sketch; shared inputs and real global
+build inputs select the applicable full surface. `firmware/**` is reported by file kind but remains
+outside the default example matrix.
+
+The workflow uses a concurrency group scoped to the pull request or branch and cancels obsolete PR or
+branch runs. Tag runs are retained for release coverage.
 
 ## Discovery Boundary
 
@@ -17,7 +30,7 @@ path.
 
 ## Validated Matrix
 
-Versions were resolved from upstream releases on 2026-07-07:
+Versions were reverified against upstream releases on 2026-08-10:
 
 | Framework | Version | Examples | Firmware artifacts |
 | --- | --- | ---: | ---: |
@@ -28,8 +41,9 @@ Versions were resolved from upstream releases on 2026-07-07:
 ESP-IDF targets `esp32s3`. Arduino uses
 `esp32:esp32:esp32s3:FlashSize=16M,PartitionScheme=app3M_fat9M_16MB` and the bundled libraries.
 
-The full workflow consists of two discovery jobs and 20 build/package jobs. Matrix jobs do not fail
-fast, so one failure does not hide results from the other examples. The v1.0.1 tag predates
+The full release run consists of one quality/routing job, two discovery jobs, and 20 build/package jobs
+(5 ESP-IDF projects × 2 ESP-IDF versions, plus 10 Arduino sketches). Matrix jobs do not fail fast, so
+one failure does not hide results from the other examples. The v1.0.1 tag predates
 `10_Touch_CST9217` and produced 19 firmware packages.
 
 ## Artifact Contract

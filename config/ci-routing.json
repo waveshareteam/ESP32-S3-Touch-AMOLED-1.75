@@ -1,0 +1,26 @@
+{
+  "build_override_patterns": [],
+  "documentation_patterns": [],
+  "documentation_asset_patterns": [],
+  "ignore_build_patterns": [
+    "scripts/audit_ci_routing.py",
+    "scripts/audit_markdown.py",
+    "scripts/inventory_repo.py",
+    "tests/test_audit_ci_routing.py",
+    "tests/test_audit_markdown.py",
+    "tests/test_inventory_repo.py",
+    "config/ci-routing.json",
+    "config/markdown-audit.json"
+  ],
+  "firmware_patterns": [],
+  "esp_idf_shared_patterns": [],
+  "arduino_shared_patterns": [],
+  "esp_idf_global_patterns": [],
+  "arduino_global_patterns": [],
+  "global_build_patterns": [
+    "scripts/discover_examples.py",
+    "tests/test_discover_examples.py",
+    "tests/test_workflow_contract.py",
+    "releases/package_firmware.py"
+  ]
+}
