@@ -166,7 +166,7 @@ def main() -> int:
     parser.add_argument("--selector", default="all")
     parser.add_argument("--selectors-json", help="compact JSON array of routed repository-relative paths")
     parser.add_argument("--allow-empty", action="store_true", help="permit a verified no-build routed selection")
-    parser.add_argument("--idf-versions", default="v5.5.4,v6.0.2")
+    parser.add_argument("--idf-versions", default="v5.5.5,v6.0.2")
     parser.add_argument("--arduino-core", default="3.3.10")
     parser.add_argument(
         "--fqbn",

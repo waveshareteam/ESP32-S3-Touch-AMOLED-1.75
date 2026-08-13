@@ -101,7 +101,7 @@ jobs:
             --selector "${{ github.event.inputs.target || 'all' }}" \
             --selectors-json '${{ needs.quality.outputs.idf-selectors }}' \
             --allow-empty \
-            --idf-versions v5.5.4,v6.0.2 \
+            --idf-versions v5.5.5,v6.0.2 \
             --github-output "$GITHUB_OUTPUT"
 
   build-esp-idf:

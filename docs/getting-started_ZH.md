@@ -71,7 +71,7 @@ python -m esptool --chip esp32s3 --port COMx --baud 460800 --before default_rese
 
 ## 使用 ESP-IDF 构建
 
-Release 构建支持 ESP-IDF `v5.5.4` 和 `v6.0.2`。激活所选 ESP-IDF 环境，然后从仓库根目录
+Release 构建支持 ESP-IDF `v5.5.5` 和 `v6.0.2`。激活所选 ESP-IDF 环境，然后从仓库根目录
 构建工程：
 
 ```bash
