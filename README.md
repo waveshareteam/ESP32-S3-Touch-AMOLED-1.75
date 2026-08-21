@@ -141,7 +141,7 @@ Their upstream samples are dependencies, not first-party product firmware target
 
 | Surface | Validated version | Projects | Firmware builds |
 | --- | --- | ---: | ---: |
-| ESP-IDF examples | `v5.5.4` | 5 | 5 |
+| ESP-IDF examples | `v5.5.5` | 5 | 5 |
 | ESP-IDF examples | `v6.0.2` | 5 | 5 |
 | Arduino-ESP32 examples | `3.3.10` | 10 | 10 |
 | Brookesia source firmware | ESP-IDF `v5.5.4` | 1 | Built outside the example matrix |

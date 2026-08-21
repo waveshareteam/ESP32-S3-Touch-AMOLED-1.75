@@ -73,7 +73,7 @@ device-validation procedure.
 
 ## Build with ESP-IDF
 
-Supported release branches are ESP-IDF `v5.5.4` and `v6.0.2`. Activate the selected ESP-IDF
+Supported release branches are ESP-IDF `v5.5.5` and `v6.0.2`. Activate the selected ESP-IDF
 environment, then build a project from the repository root:
 
 ```bash

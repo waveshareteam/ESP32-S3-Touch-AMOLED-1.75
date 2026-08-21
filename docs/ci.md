@@ -30,11 +30,11 @@ path.
 
 ## Validated Matrix
 
-Versions were reverified against upstream releases on 2026-08-10:
+Versions were reverified against upstream releases on 2026-08-13:
 
 | Framework | Version | Examples | Firmware artifacts |
 | --- | --- | ---: | ---: |
-| ESP-IDF | `v5.5.4` | 5 | 5 |
+| ESP-IDF | `v5.5.5` | 5 | 5 |
 | ESP-IDF | `v6.0.2` | 5 | 5 |
 | Arduino-ESP32 | `3.3.10` | 10 | 10 |
 

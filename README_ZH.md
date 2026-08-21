@@ -134,7 +134,7 @@ Arduino 捆绑库位于 [`examples/arduino/libraries`](examples/arduino/librarie
 
 | 范围 | 已验证版本 | 工程数 | 固件构建数 |
 | --- | --- | ---: | ---: |
-| ESP-IDF 示例 | `v5.5.4` | 5 | 5 |
+| ESP-IDF 示例 | `v5.5.5` | 5 | 5 |
 | ESP-IDF 示例 | `v6.0.2` | 5 | 5 |
 | Arduino-ESP32 示例 | `3.3.10` | 10 | 10 |
 | Brookesia 源码固件 | ESP-IDF `v5.5.4` | 1 | 不属于示例矩阵 |

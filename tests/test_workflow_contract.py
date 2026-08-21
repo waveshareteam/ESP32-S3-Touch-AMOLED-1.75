@@ -36,7 +36,7 @@ class WorkflowContractTests(unittest.TestCase):
         self.assertIn("\n          PY\n          fi", self.workflow)
 
     def test_workflow_keeps_release_matrix_and_pr_concurrency(self) -> None:
-        for value in ("v5.5.4,v6.0.2", "--arduino-core 3.3.10", "tags: [\"v*\"]", "cancel-in-progress"):
+        for value in ("v5.5.5,v6.0.2", "--arduino-core 3.3.10", "tags: [\"v*\"]", "cancel-in-progress"):
             self.assertIn(value, self.workflow)
 
 

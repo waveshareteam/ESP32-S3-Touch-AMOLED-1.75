@@ -17,7 +17,7 @@ QMI8658, and updates the LVGL interface from a dedicated application task.
 
 ## Supported Versions
 
-- ESP-IDF `v5.5.4`
+- ESP-IDF `v5.5.5`
 - ESP-IDF `v6.0.2`
 - Target `esp32s3`
 
