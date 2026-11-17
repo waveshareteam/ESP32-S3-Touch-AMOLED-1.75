@@ -2,9 +2,7 @@
 
 [English](README.md)
 
-发布日期：2026-08-05
-
-文件名日期码：`260805`
+最新出厂固件日期：2026-08-24
 
 本目录包含可直接交付给客户的完整工厂固件、SD 卡验证素材包、素材制作说明，
 以及用于维护和重新构建固件的 ESP-IDF 工程。
@@ -13,7 +11,8 @@
 
 | 文件或目录 | 用途 |
 | --- | --- |
-| `ESP32-S3-Touch-AMOLED-1.75-FactoryOnly-260805.bin` | 16 MiB 完整工厂镜像，从地址 `0x0` 一次性烧录 |
+| [`ESP32-S3-Touch-AMOLED-1.75_FactoryOnly_20260824.bin`](ESP32-S3-Touch-AMOLED-1.75_FactoryOnly_20260824.bin) | 2026-08-24 出厂固件，16 MiB 完整镜像，从 `0x0` 烧录 |
+| `ESP32-S3-Touch-AMOLED-1.75-FactoryOnly-260805.bin` | 2026-08-05 历史工厂镜像，16 MiB，从地址 `0x0` 一次性烧录 |
 | `SD-Card-Media-260805.zip` | MusicPlayer、Gallery、VideoPlayer 和 Recorder 的 SD 卡目录与项目生成的合成验证素材 |
 | [`MEDIA_GUIDE_ZH.md`](MEDIA_GUIDE_ZH.md) | 图片、音频与 AVI 素材制作指南，包含 FFmpeg 与 ffprobe 命令 |
 | [`brookesia/`](brookesia/README_ZH.md) | 生成工厂镜像的 ESP-IDF v5.5.4 源码工程 |
@@ -34,6 +33,15 @@
 本仓库不会重复翻译或改写，以免后续产生内容漂移。
 
 ## 工厂固件
+
+将 `COMx` 替换为设备端口。烧录前核对 SHA-256 为 `dfe97bc7c4257ce802da750e77eb855ac871872f42c048564b3dde3de0a887af`。
+
+```powershell
+Get-FileHash ./ESP32-S3-Touch-AMOLED-1.75_FactoryOnly_20260824.bin -Algorithm SHA256
+python -m esptool --chip esp32s3 --port COMx --baud 460800 write_flash --flash_size 16MB 0x0 ./ESP32-S3-Touch-AMOLED-1.75_FactoryOnly_20260824.bin
+```
+
+### 2026-08-05 历史固件
 
 - 目标板：ESP32-S3-Touch-AMOLED-1.75
 - ESP-IDF：v5.5.4
@@ -124,7 +132,7 @@ powershell -ExecutionPolicy Bypass -File .\firmware\brookesia\tools\hardware_pre
 
 ## 源码工程
 
-[`brookesia/`](brookesia/README_ZH.md) 是本工厂镜像对应的源码工程。它使用本板原生的
+[`brookesia/`](brookesia/README_ZH.md) 是 2026-08-05 工厂镜像对应的源码工程。它使用本板原生的
 466 × 466 CO5300 QSPI AMOLED、CST9217 触摸、ES8311 扬声器编解码器、
 ES7210 双麦克风输入、AXP2101 电源管理、QMI8658 IMU、1-bit SDMMC 和
 ESP32-S3 原生 Wi-Fi。

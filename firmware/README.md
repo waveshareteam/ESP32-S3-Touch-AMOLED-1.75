@@ -2,9 +2,7 @@
 
 [简体中文](README_ZH.md)
 
-Release date: 2026-08-05
-
-Filename date code: `260805`
+Latest factory firmware date: 2026-08-24
 
 This directory contains the complete customer factory image, an SD-card validation
 media package, media-production instructions, and the ESP-IDF project used to
@@ -14,7 +12,8 @@ maintain and rebuild the firmware.
 
 | File or directory | Purpose |
 | --- | --- |
-| `ESP32-S3-Touch-AMOLED-1.75-FactoryOnly-260805.bin` | Complete 16 MiB factory image, written once at offset `0x0` |
+| [`ESP32-S3-Touch-AMOLED-1.75_FactoryOnly_20260824.bin`](ESP32-S3-Touch-AMOLED-1.75_FactoryOnly_20260824.bin) | 2026-08-24 factory firmware, complete 16 MiB image written at `0x0` |
+| `ESP32-S3-Touch-AMOLED-1.75-FactoryOnly-260805.bin` | 2026-08-05 historical factory image, 16 MiB, written once at offset `0x0` |
 | `SD-Card-Media-260805.zip` | SD directory structure and project-generated synthetic validation fixtures for MusicPlayer, Gallery, VideoPlayer, and Recorder |
 | [`MEDIA_GUIDE.md`](MEDIA_GUIDE.md) | Image, audio, and AVI production guide with FFmpeg and ffprobe commands |
 | [`brookesia/`](brookesia/README.md) | ESP-IDF v5.5.4 source project used to produce the factory image |
@@ -37,6 +36,15 @@ upstream source tree belongs to its upstream project and is intentionally not
 duplicated or translated here.
 
 ## Factory firmware
+
+Replace `COMx` with the device port. Before flashing, verify the SHA-256 is `dfe97bc7c4257ce802da750e77eb855ac871872f42c048564b3dde3de0a887af`.
+
+```powershell
+Get-FileHash ./ESP32-S3-Touch-AMOLED-1.75_FactoryOnly_20260824.bin -Algorithm SHA256
+python -m esptool --chip esp32s3 --port COMx --baud 460800 write_flash --flash_size 16MB 0x0 ./ESP32-S3-Touch-AMOLED-1.75_FactoryOnly_20260824.bin
+```
+
+### 2026-08-05 historical firmware
 
 - Target: ESP32-S3-Touch-AMOLED-1.75
 - ESP-IDF: v5.5.4
@@ -138,7 +146,7 @@ acceptance.
 
 ## Source project
 
-[`brookesia/`](brookesia/README.md) is the source project corresponding to this
-factory image. It uses the board-native 466 × 466 CO5300 QSPI AMOLED, CST9217
+[`brookesia/`](brookesia/README.md) is the source project corresponding to the
+2026-08-05 factory image. It uses the board-native 466 × 466 CO5300 QSPI AMOLED, CST9217
 touch controller, ES8311 speaker codec, ES7210 dual-microphone input, AXP2101
 power management, QMI8658 IMU, 1-bit SDMMC, and native ESP32-S3 Wi-Fi.
