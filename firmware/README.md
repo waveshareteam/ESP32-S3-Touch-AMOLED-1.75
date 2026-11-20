@@ -13,7 +13,7 @@ maintain and rebuild the firmware.
 | File or directory | Purpose |
 | --- | --- |
 | [`ESP32-S3-Touch-AMOLED-1.75_FactoryOnly_20260824.bin`](ESP32-S3-Touch-AMOLED-1.75_FactoryOnly_20260824.bin) | 2026-08-24 factory firmware, complete 16 MiB image written at `0x0` |
-| `ESP32-S3-Touch-AMOLED-1.75-FactoryOnly-260805.bin` | 2026-08-05 historical factory image, 16 MiB, written once at offset `0x0` |
+| `ESP32-S3-Touch-AMOLED-1.75_FactoryOnly_20260805.bin` | 2026-08-05 historical factory image, 16 MiB, written once at offset `0x0` |
 | `SD-Card-Media-260805.zip` | SD directory structure and project-generated synthetic validation fixtures for MusicPlayer, Gallery, VideoPlayer, and Recorder |
 | [`MEDIA_GUIDE.md`](MEDIA_GUIDE.md) | Image, audio, and AVI production guide with FFmpeg and ffprobe commands |
 | [`brookesia/`](brookesia/README.md) | ESP-IDF v5.5.4 source project used to produce the factory image |
@@ -65,13 +65,13 @@ the conditioned PWR input on TCA9554 EXIO4 and the BOOT input on GPIO0.
 Verify the file first:
 
 ```powershell
-Get-FileHash .\ESP32-S3-Touch-AMOLED-1.75-FactoryOnly-260805.bin -Algorithm SHA256
+Get-FileHash .\ESP32-S3-Touch-AMOLED-1.75_FactoryOnly_20260805.bin -Algorithm SHA256
 ```
 
 Replace `COMx` with the device port, then flash the image:
 
 ```powershell
-python -m esptool --chip esp32s3 --port COMx --baud 460800 --before default_reset --after hard_reset write_flash --flash_mode dio --flash_size 16MB --flash_freq 80m 0x0 .\ESP32-S3-Touch-AMOLED-1.75-FactoryOnly-260805.bin
+python -m esptool --chip esp32s3 --port COMx --baud 460800 --before default_reset --after hard_reset write_flash --flash_mode dio --flash_size 16MB --flash_freq 80m 0x0 .\ESP32-S3-Touch-AMOLED-1.75_FactoryOnly_20260805.bin
 ```
 
 A normal update does not require `erase-flash`. If automatic reset cannot enter

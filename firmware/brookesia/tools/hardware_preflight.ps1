@@ -85,7 +85,7 @@ function Resolve-SafeChild([string]$Root, [string]$RelativePath)
 $repoRoot = [IO.Path]::GetFullPath((Join-Path $PSScriptRoot '..\..\..'))
 if ([string]::IsNullOrWhiteSpace($FirmwarePath)) {
     $FirmwarePath = Join-Path $repoRoot (
-        'firmware\ESP32-S3-Touch-AMOLED-1.75-FactoryOnly-260805.bin'
+        'firmware\ESP32-S3-Touch-AMOLED-1.75_FactoryOnly_20260805.bin'
     )
 }
 if ([string]::IsNullOrWhiteSpace($MediaZipPath)) {

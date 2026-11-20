@@ -48,7 +48,7 @@ Gravitysphere 将 QMI8658 驱动的小球限制在真实圆形边界内，Crossh
 
 ## 工厂恢复固件
 
-`firmware/ESP32-S3-Touch-AMOLED-1.75-FactoryOnly-260805.bin` 是当前用于工厂烧录和恢复的镜像，
+`firmware/ESP32-S3-Touch-AMOLED-1.75_FactoryOnly_20260805.bin` 是当前用于工厂烧录和恢复的镜像，
 生成日期为 2026-08-05。它不是由 CI 生成，也不是源码示例构建产物，并且不会被重新包装为发布
 示例。配套客户 SD 素材另行提供为 `firmware/SD-Card-Media-260805.zip`。
 

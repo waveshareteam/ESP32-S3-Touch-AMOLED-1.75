@@ -67,7 +67,7 @@ GPIO 映射、I2C 地址、音频与 SD 总线、扩展排针和共享资源注�
 | 固件形式 | 用途 | 位置 |
 | --- | --- | --- |
 | CI 发布包 | 可复现地测试单个 ESP-IDF 或 Arduino 示例 | [GitHub Releases](https://github.com/waveshareteam/ESP32-S3-Touch-AMOLED-1.75/releases/latest) |
-| 工厂恢复镜像 | 从 `0x0` 恢复完整客户演示系统 | [`firmware/ESP32-S3-Touch-AMOLED-1.75-FactoryOnly-260805.bin`](firmware/ESP32-S3-Touch-AMOLED-1.75-FactoryOnly-260805.bin) |
+| 工厂恢复镜像 | 从 `0x0` 恢复完整客户演示系统 | [`firmware/ESP32-S3-Touch-AMOLED-1.75_FactoryOnly_20260805.bin`](firmware/ESP32-S3-Touch-AMOLED-1.75_FactoryOnly_20260805.bin) |
 | Brookesia 源码 | 使用 ESP-IDF v5.5.4 维护或重新构建应用套件 | [`firmware/brookesia/README_ZH.md`](firmware/brookesia/README_ZH.md) |
 | SD 素材包 | 验证 MusicPlayer、Gallery、VideoPlayer 和 Recorder | [`firmware/SD-Card-Media-260805.zip`](firmware/SD-Card-Media-260805.zip) |
 

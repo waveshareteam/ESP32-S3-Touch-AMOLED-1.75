@@ -12,7 +12,7 @@
 | 文件或目录 | 用途 |
 | --- | --- |
 | [`ESP32-S3-Touch-AMOLED-1.75_FactoryOnly_20260824.bin`](ESP32-S3-Touch-AMOLED-1.75_FactoryOnly_20260824.bin) | 2026-08-24 出厂固件，16 MiB 完整镜像，从 `0x0` 烧录 |
-| `ESP32-S3-Touch-AMOLED-1.75-FactoryOnly-260805.bin` | 2026-08-05 历史工厂镜像，16 MiB，从地址 `0x0` 一次性烧录 |
+| `ESP32-S3-Touch-AMOLED-1.75_FactoryOnly_20260805.bin` | 2026-08-05 历史工厂镜像，16 MiB，从地址 `0x0` 一次性烧录 |
 | `SD-Card-Media-260805.zip` | MusicPlayer、Gallery、VideoPlayer 和 Recorder 的 SD 卡目录与项目生成的合成验证素材 |
 | [`MEDIA_GUIDE_ZH.md`](MEDIA_GUIDE_ZH.md) | 图片、音频与 AVI 素材制作指南，包含 FFmpeg 与 ffprobe 命令 |
 | [`brookesia/`](brookesia/README_ZH.md) | 生成工厂镜像的 ESP-IDF v5.5.4 源码工程 |
@@ -61,13 +61,13 @@ SPIFFS 文件系统。它是完整镜像，不要再与其他构建生成的分�
 先校验文件：
 
 ```powershell
-Get-FileHash .\ESP32-S3-Touch-AMOLED-1.75-FactoryOnly-260805.bin -Algorithm SHA256
+Get-FileHash .\ESP32-S3-Touch-AMOLED-1.75_FactoryOnly_20260805.bin -Algorithm SHA256
 ```
 
 将 `COMx` 替换为设备端口后烧录：
 
 ```powershell
-python -m esptool --chip esp32s3 --port COMx --baud 460800 --before default_reset --after hard_reset write_flash --flash_mode dio --flash_size 16MB --flash_freq 80m 0x0 .\ESP32-S3-Touch-AMOLED-1.75-FactoryOnly-260805.bin
+python -m esptool --chip esp32s3 --port COMx --baud 460800 --before default_reset --after hard_reset write_flash --flash_mode dio --flash_size 16MB --flash_freq 80m 0x0 .\ESP32-S3-Touch-AMOLED-1.75_FactoryOnly_20260805.bin
 ```
 
 正常更新不需要执行 `erase-flash`。如果自动复位无法进入下载模式，请按住 BOOT、

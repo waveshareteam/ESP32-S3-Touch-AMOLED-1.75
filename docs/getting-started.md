@@ -57,14 +57,14 @@ release BOOT after writing begins.
 ## Flash the Factory Image
 
 The customer factory image is
-[`firmware/ESP32-S3-Touch-AMOLED-1.75-FactoryOnly-260805.bin`](../firmware/ESP32-S3-Touch-AMOLED-1.75-FactoryOnly-260805.bin).
+[`firmware/ESP32-S3-Touch-AMOLED-1.75_FactoryOnly_20260805.bin`](../firmware/ESP32-S3-Touch-AMOLED-1.75_FactoryOnly_20260805.bin).
 It is a complete 16 MiB image written once at `0x0`. It combines the bootloader, partition table,
 initial OTA data, ESP-SR model, Brookesia application, and SPIFFS filesystem.
 
 From the repository root, replace `COMx` with the board port and run:
 
 ```powershell
-python -m esptool --chip esp32s3 --port COMx --baud 460800 --before default_reset --after hard_reset write_flash --flash_mode dio --flash_size 16MB --flash_freq 80m 0x0 .\firmware\ESP32-S3-Touch-AMOLED-1.75-FactoryOnly-260805.bin
+python -m esptool --chip esp32s3 --port COMx --baud 460800 --before default_reset --after hard_reset write_flash --flash_mode dio --flash_size 16MB --flash_freq 80m 0x0 .\firmware\ESP32-S3-Touch-AMOLED-1.75_FactoryOnly_20260805.bin
 ```
 
 A normal update does not require erasing the whole flash. See the bilingual
