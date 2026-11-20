@@ -69,7 +69,7 @@ the full preflight before flashing:
 ```powershell
 $port = 'COMx' # Replace with the board's serial port.
 & .\firmware\brookesia\tools\hardware_preflight.ps1 -Port $port
-python -m esptool --chip esp32s3 --port $port --baud 460800 --before default_reset --after hard_reset write_flash --flash_mode dio --flash_size 16MB --flash_freq 80m 0x0 firmware\ESP32-S3-Touch-AMOLED-1.75-FactoryOnly-260805.bin
+python -m esptool --chip esp32s3 --port $port --baud 460800 --before default_reset --after hard_reset write_flash --flash_mode dio --flash_size 16MB --flash_freq 80m 0x0 firmware\ESP32-S3-Touch-AMOLED-1.75_FactoryOnly_20260805.bin
 ```
 
 After flashing, start an ESP-IDF monitor from the configured v5.5.4

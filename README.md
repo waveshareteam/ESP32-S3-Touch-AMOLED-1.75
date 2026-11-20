@@ -71,7 +71,7 @@ Choose the firmware form that matches the task:
 | Firmware form | Intended use | Location |
 | --- | --- | --- |
 | CI release package | Reproducible test of one ESP-IDF or Arduino example | [GitHub Releases](https://github.com/waveshareteam/ESP32-S3-Touch-AMOLED-1.75/releases/latest) |
-| Factory recovery image | Restore the complete customer demonstration at offset `0x0` | [`firmware/ESP32-S3-Touch-AMOLED-1.75-FactoryOnly-260805.bin`](firmware/ESP32-S3-Touch-AMOLED-1.75-FactoryOnly-260805.bin) |
+| Factory recovery image | Restore the complete customer demonstration at offset `0x0` | [`firmware/ESP32-S3-Touch-AMOLED-1.75_FactoryOnly_20260805.bin`](firmware/ESP32-S3-Touch-AMOLED-1.75_FactoryOnly_20260805.bin) |
 | Brookesia source | Maintain or rebuild the application suite with ESP-IDF v5.5.4 | [`firmware/brookesia/README.md`](firmware/brookesia/README.md) |
 | SD media package | Validate MusicPlayer, Gallery, VideoPlayer, and Recorder | [`firmware/SD-Card-Media-260805.zip`](firmware/SD-Card-Media-260805.zip) |
 

@@ -56,14 +56,14 @@ BOOT。
 ## 烧录工厂镜像
 
 客户工厂镜像为
-[`firmware/ESP32-S3-Touch-AMOLED-1.75-FactoryOnly-260805.bin`](../firmware/ESP32-S3-Touch-AMOLED-1.75-FactoryOnly-260805.bin)。
+[`firmware/ESP32-S3-Touch-AMOLED-1.75_FactoryOnly_20260805.bin`](../firmware/ESP32-S3-Touch-AMOLED-1.75_FactoryOnly_20260805.bin)。
 它是从 `0x0` 一次性写入的完整 16 MiB 镜像，已经合并 Bootloader、分区表、初始 OTA 数据、
 ESP-SR 模型、Brookesia 应用程序和 SPIFFS 文件系统。
 
 在仓库根目录中，把 `COMx` 替换为开发板端口后运行：
 
 ```powershell
-python -m esptool --chip esp32s3 --port COMx --baud 460800 --before default_reset --after hard_reset write_flash --flash_mode dio --flash_size 16MB --flash_freq 80m 0x0 .\firmware\ESP32-S3-Touch-AMOLED-1.75-FactoryOnly-260805.bin
+python -m esptool --chip esp32s3 --port COMx --baud 460800 --before default_reset --after hard_reset write_flash --flash_mode dio --flash_size 16MB --flash_freq 80m 0x0 .\firmware\ESP32-S3-Touch-AMOLED-1.75_FactoryOnly_20260805.bin
 ```
 
 正常更新不需要擦除整片 Flash。已发布的校验值、SD 卡素材包和实机验证步骤见中英双语

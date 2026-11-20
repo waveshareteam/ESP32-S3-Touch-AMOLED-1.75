@@ -64,7 +64,7 @@ exFAT。复制脚本会拒绝不支持的文件系统，而且绝不会格式化
 ```powershell
 $port = 'COMx' # 替换为开发板串口。
 & .\firmware\brookesia\tools\hardware_preflight.ps1 -Port $port
-python -m esptool --chip esp32s3 --port $port --baud 460800 --before default_reset --after hard_reset write_flash --flash_mode dio --flash_size 16MB --flash_freq 80m 0x0 firmware\ESP32-S3-Touch-AMOLED-1.75-FactoryOnly-260805.bin
+python -m esptool --chip esp32s3 --port $port --baud 460800 --before default_reset --after hard_reset write_flash --flash_mode dio --flash_size 16MB --flash_freq 80m 0x0 firmware\ESP32-S3-Touch-AMOLED-1.75_FactoryOnly_20260805.bin
 ```
 
 烧录完成后，在配置好的 ESP-IDF v5.5.4 环境中启动串口监视器：
